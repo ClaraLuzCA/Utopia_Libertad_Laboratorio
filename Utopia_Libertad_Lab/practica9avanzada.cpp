@@ -304,7 +304,7 @@ int main()
 	Blackhawk_M.LoadModel("Models/Black.obj");
 
 	T_Tierra = Model();
-	T_Tierra.LoadModel("Models/11.obj");
+	T_Tierra.LoadModel("Models/tronco.obj");
 
 
 
