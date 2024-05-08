@@ -78,7 +78,14 @@ Texture Numero2Texture;
 Model Kitt_M;
 Model Llanta_M;
 Model Blackhawk_M;
+
+//MODELOS
+
 Model T_Tierra;
+Model Fuego;
+Model Momo;
+Model antorha;
+
 
 Skybox skybox;
 
@@ -303,8 +310,16 @@ int main()
 	Blackhawk_M = Model();
 	Blackhawk_M.LoadModel("Models/Black.obj");
 
+	//MODELOS
+
 	T_Tierra = Model();
-	T_Tierra.LoadModel("Models/momo.obj");
+	T_Tierra.LoadModel("Models/templo_de_tierra.obj");
+
+	Fuego = Model();
+	Fuego.LoadModel("Models/fuego.obj");
+
+	Momo = Model();
+	Momo.LoadModel("Models/momo.obj");
 
 
 
@@ -510,14 +525,6 @@ int main()
 
 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(15.5f, -0.5f, 1.5f));
-		model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		T_Tierra.RenderModel();
-
-
-		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 5.0f, 6.0f));
 		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
 		//model = glm::rotate(model, 360 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
@@ -527,7 +534,32 @@ int main()
 		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Blackhawk_M.RenderModel();
+
+
+		//MODELOS
+
+		model = glm::mat4(1.0);	
+		model = glm::translate(model, glm::vec3(15.5f, -0.5f, 1.5f));	
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));	
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		T_Tierra.RenderModel();	
+
 		
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-13.5f, -0.5f, 9.5f));	
+		model = glm::scale(model, glm::vec3(0.08f, 0.08f, 0.08f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		Fuego.RenderModel();	
+
+		model = glm::mat4(1.0);	
+		model = glm::translate(model, glm::vec3(-17.5f, -0.5f, 27.5f));	
+		model = glm::scale(model, glm::vec3(0.04f, 0.04f, 0.04f));	
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		Momo.RenderModel();	
+
 
 		
 
