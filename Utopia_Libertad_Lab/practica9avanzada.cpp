@@ -78,6 +78,7 @@ Texture Numero2Texture;
 Model Kitt_M;
 Model Llanta_M;
 Model Blackhawk_M;
+Model T_Tierra;
 
 Skybox skybox;
 
@@ -302,6 +303,9 @@ int main()
 	Blackhawk_M = Model();
 	Blackhawk_M.LoadModel("Models/Black.obj");
 
+	T_Tierra = Model();
+	T_Tierra.LoadModel("Models/fuego.obj");
+
 
 
 	std::vector<std::string> skyboxFaces;
@@ -503,6 +507,14 @@ int main()
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Llanta_M.RenderModel();
+
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(15.5f, -0.5f, 1.5f));
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		T_Tierra.RenderModel();
 
 
 		model = glm::mat4(1.0);
