@@ -79,6 +79,25 @@ Model Kitt_M;
 Model Llanta_M;
 Model Blackhawk_M;
 
+Model Avion;
+Model Aspa;
+Model Lampara;
+Model Corral;
+Model Planeta;
+Model Domo;
+Model Casa;
+Model Carro;
+Model Bancas;
+Model Bolita;
+Model Hongo;
+Model Arbusto;
+Model Mariposa;
+Model Picnic;
+Model Molino;
+
+
+Skybox skybox_dia;
+Skybox skybox_noche;
 Skybox skybox;
 
 //materiales
@@ -282,7 +301,7 @@ int main()
 	dirtTexture.LoadTextureA();
 	plainTexture = Texture("Textures/plain.png");
 	plainTexture.LoadTextureA();
-	pisoTexture = Texture("Textures/piso.tga");
+	pisoTexture = Texture("Textures/pasto.jpeg");
 	pisoTexture.LoadTextureA();
 	AgaveTexture = Texture("Textures/Agave.tga");
 	AgaveTexture.LoadTextureA();
@@ -303,7 +322,34 @@ int main()
 	Blackhawk_M = Model();
 	Blackhawk_M.LoadModel("Models/Black.obj");
 
+	Avion = Model();
+	Avion.LoadModel("Models/Avion.obj");
+	Aspa = Model();
+	Aspa.LoadModel("Models/Aspa.obj");
 
+	Lampara = Model();
+	Lampara.LoadModel("Models/Lampara.obj");
+
+	Corral = Model();
+	Corral.LoadModel("Models/corral.obj");
+
+	Planeta = Model();
+	Planeta.LoadModel("Models/Planeta.obj");
+
+	Bolita = Model();
+	Bolita.LoadModel("Models/Bola.obj");
+
+	Picnic = Model();
+	Picnic.LoadModel("Models/picnic.obj");
+
+	Hongo = Model();
+	Hongo.LoadModel("Models/hongo.obj");
+
+	Arbusto = Model();
+	Arbusto.LoadModel("Models/arbusto.obj");
+
+	Molino = Model();
+	Molino.LoadModel("Models/Molino2.obj");
 
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
@@ -314,6 +360,28 @@ int main()
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_ft.tga");
 
 	skybox = Skybox(skyboxFaces);
+
+	/*std::vector<std::string> skyboxFaces;
+	skyboxFaces.push_back("Textures/Skybox_Dia/dia_1.jpg");
+	skyboxFaces.push_back("Textures/Skybox_Dia/dia_3.jpg");
+	skyboxFaces.push_back("Textures/Skybox_Dia/dia_down.jpg");
+	skyboxFaces.push_back("Textures/Skybox_Dia/dia_up.jpg");
+	skyboxFaces.push_back("Textures/Skybox_Dia/dia_4.jpg");
+	skyboxFaces.push_back("Textures/Skybox_Dia/dia_2.jpg");
+
+	skybox_dia = Skybox(skyboxFaces);*/
+
+	std::vector<std::string> skyboxFaces2;
+
+	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_1.jpg");
+	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_3.png");
+	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_down.png");
+	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_up.png");
+	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_4.png");
+	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_2.png");
+
+	skybox_noche = Skybox(skyboxFaces2);
+
 
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
@@ -416,6 +484,7 @@ int main()
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
+
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
 		uniformProjection = shaderList[0].GetProjectionLocation();
@@ -455,11 +524,108 @@ int main()
 		model = glm::scale(model, glm::vec3(30.0f, 1.0f, 30.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		//glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		
 		pisoTexture.UseTexture();
-		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		//Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 
+		//meshList[2]->RenderMesh();
+		
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(30.0f, 1.0f, 30.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pisoTexture.UseTexture();
 		meshList[2]->RenderMesh();
+
+		//Vehículos **********************************************************
+		
+		//Avión 1
+		model = glm::mat4(1.0);
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Avion.RenderModel();
+
+		//Aspa
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(2.0f, 0.0f, -21.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Aspa.RenderModel();
+
+		// Carrito 2
+
+
+		//Decoración ********************************************************* 
+		
+		//Lampara 1
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(20.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Lampara.RenderModel();
+
+		//Corral  2
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Corral.RenderModel();
+
+		//Planeta  3
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Planeta.RenderModel();
+
+		//Banca  4
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-25.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Picnic.RenderModel();
+
+
+		//Torre 5
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 10.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Molino.RenderModel();
+
+
+
+		//Fauna ****************************************************************
+
+		//Bolita 1
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-40.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Bolita.RenderModel();
+
+		//Flora ****************************************************************
+
+		//Hongo 1
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(20.0f, 0.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Hongo.RenderModel();
+		
+		//arbusto 2
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(25.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Arbusto.RenderModel();
+
+		//Edificio *************************************************************
+
+		//casa totoro
+
+
+
+		//Avatar ***************************************************************
+
+
 
 
 

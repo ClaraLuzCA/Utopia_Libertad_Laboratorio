@@ -1,0 +1,19 @@
+# 3ds Max Wavefront OBJ Exporter v0.99 - (c)2007 guruware
+# File Created: 08.05.2024 14:35:19
+
+newmtl airplane
+	Kd 0.8000 0.8000 0.8000
+	Ks 1.0000 1.0000 1.0000
+	Tr 0.0000
+	d 1.0000
+	Tf 1.0000 1.0000 1.0000
+	Pr 0.3678
+	Pm 0.0000
+	Pc 0.0000
+	Pcr 0.0000
+	Ni 1.5200
+	Ke 0.0000 0.0000 0.0000
+	illum 2
+	map_Kd C:\Users\clara\OneDrive\Escritorio\Modelos 3D cgih\Airplane_fbx\Airplane\textures\diffuse.dds
+	bump C:\Users\clara\OneDrive\Escritorio\Modelos 3D cgih\Airplane_fbx\Airplane\textures\normal.png
+	map_bump C:\Users\clara\OneDrive\Escritorio\Modelos 3D cgih\Airplane_fbx\Airplane\textures\normal.png
