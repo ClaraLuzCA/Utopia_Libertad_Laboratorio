@@ -57,6 +57,12 @@ float toffsetnumerov = 0.0f;
 float toffsetnumerocambiau = 0.0;
 float angulovaria = 0.0f;
 
+//movimiento del globo 
+
+float globoAngle;
+float globoOffset;
+bool vuelta;
+
 Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
@@ -81,38 +87,47 @@ Model Blackhawk_M;
 
 Model Avion;
 Model Aspa;
-Model Lampara;
-Model Corral;
-Model Planeta;
-Model Domo;
-Model Casa;
 Model Carro;
-Model Bancas;
-Model Bolita;
-Model Hongo;
-Model Arbusto;
-Model Mariposa;
 Model Picnic;
-Model Molino;
+
 
 
 Skybox skybox_dia;
 Skybox skybox_noche;
 
 
+Model aerostatico;
+Model Pared;
 
+//flora
+Model tronco;
+Model arbol;
+Model Arbusto;
+Model Hongo;
+
+
+//fauna
+Model Momo;
+Model Heibai;
+Model aang;
+Model Bolita;
+
+
+
+//Decoración
+Model Lampara;
+Model Corral;
+Model Planeta;
+Model Bancas;
+Model antorcha;
+
+//edificios
 Model T_Tierra;
 Model Fuego;
-Model Momo;
-Model antorha;
-Model tronco;
-Model antorcha;
-Model aerostatico;
-Model arbol;
-Model aang;
-Model Pared;
-Model Heibai;
+Model Casa;
 Model granja;
+Model Domo;
+Model Molino;
 
 
 Skybox skybox;
@@ -499,6 +514,11 @@ int main()
 	movHeli = 0.0f;
 	movHeliOffset = 10.0f;
 	avanzaHeli = true;
+
+	//aerostatico
+
+	globoAngle = 0.0f;
+	globoOffset = 10.0f;
 	
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -533,6 +553,25 @@ int main()
 				avanzaHeli = !avanzaHeli;
 			}
 
+		}
+
+		//movimiento del globo aerostatico 
+
+		if (vuelta) {
+			if (globoAngle < 370.0f) {
+				globoAngle += globoOffset * deltaTime;
+			}
+			else {
+				vuelta = false;
+			}
+		}
+		else {
+			if (globoAngle > 0.0f) {
+				globoAngle -= globoOffset * deltaTime;
+			}
+			else {
+				vuelta = true;
+			}
 		}
 
 
@@ -608,14 +647,14 @@ int main()
 		
 		//Avión 1
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-25.5f, 25.5f, 40.5f));
+		model = glm::translate(model, glm::vec3(-25.5f, 40.5f, 40.5f));
 		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Avion.RenderModel();
 
 		//Aspa
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(-25.0f, 25.5f, 30.5f));
+		model = glm::translate(model, glm::vec3(-25.0f, 40.5f, 15.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Aspa.RenderModel();
 
@@ -633,8 +672,10 @@ int main()
 		//aerostatico 3
 
 		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(25.5f, 30.5f, 37.5f));	
+		//model = glm::translate(model, glm::vec3(globoAngle, 30.5f, 37.0f));
+		model = glm::translate(model, glm::vec3(25.5f, 50.5f, 37.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
+		//model = glm::rotate(model, globoAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
 		aerostatico.RenderModel();	
