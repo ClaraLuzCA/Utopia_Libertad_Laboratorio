@@ -85,6 +85,7 @@ Model Kitt_M;
 Model Llanta_M;
 Model Blackhawk_M;
 
+
 Model Avion;
 Model Aspa;
 Model Carro;
@@ -99,6 +100,7 @@ Skybox skybox_noche;
 Model aerostatico;
 Model Pared;
 
+//<<<<<<< HEAD
 //flora
 Model tronco;
 Model arbol;
@@ -122,6 +124,9 @@ Model Bancas;
 Model antorcha;
 
 //edificios
+//=======
+
+//>>>>>>> eac8182b37f265d076f08086c2b16f6ed4ffd3ee
 Model T_Tierra;
 Model Fuego;
 Model Casa;
@@ -146,6 +151,9 @@ static double limitFPS = 1.0 / 60.0;
 DirectionalLight mainLight;
 //para declarar varias luces de tipo pointlight
 PointLight pointLights[MAX_POINT_LIGHTS];
+PointLight pointLights2[MAX_POINT_LIGHTS];
+PointLight pointLights3[MAX_POINT_LIGHTS];
+
 SpotLight spotLights[MAX_SPOT_LIGHTS];
 
 // Vertex Shader
@@ -234,7 +242,7 @@ void CreateObjects()
 
 
 	};
-	
+
 
 	unsigned int flechaIndices[] = {
 	   0, 1, 2,
@@ -275,15 +283,15 @@ void CreateObjects()
 
 	};
 
-	Mesh *obj1 = new Mesh();
+	Mesh* obj1 = new Mesh();
 	obj1->CreateMesh(vertices, indices, 32, 12);
 	meshList.push_back(obj1);
 
-	Mesh *obj2 = new Mesh();
+	Mesh* obj2 = new Mesh();
 	obj2->CreateMesh(vertices, indices, 32, 12);
 	meshList.push_back(obj2);
 
-	Mesh *obj3 = new Mesh();
+	Mesh* obj3 = new Mesh();
 	obj3->CreateMesh(floorVertices, floorIndices, 32, 6);
 	meshList.push_back(obj3);
 
@@ -308,7 +316,7 @@ void CreateObjects()
 
 void CreateShaders()
 {
-	Shader *shader1 = new Shader();
+	Shader* shader1 = new Shader();
 	shader1->CreateFromFiles(vShader, fShader);
 	shaderList.push_back(*shader1);
 }
@@ -346,20 +354,14 @@ int main()
 	Numero2Texture.LoadTextureA();
 
 
-	Kitt_M = Model();
-	Kitt_M.LoadModel("Models/kitt_optimizado.obj");
-	Llanta_M = Model();
-	Llanta_M.LoadModel("Models/llanta_optimizada.obj");
-	Blackhawk_M = Model();
-	Blackhawk_M.LoadModel("Models/Black.obj");
 
+
+	//MODELOS
 
 	Avion = Model();
 	Avion.LoadModel("Models/Avion.obj");
 	Aspa = Model();
 	Aspa.LoadModel("Models/Aspa.obj");
-  
-	//MODELOS
 
 	T_Tierra = Model();
 	T_Tierra.LoadModel("Models/templo_de_tierra.obj");
@@ -385,13 +387,8 @@ int main()
 	aang = Model();
 	aang.LoadModel("Models/estatuaa.obj");
 
-	Pared = Model();
-	Pared.LoadModel("Models/pared.obj");
-
 	Heibai = Model();
 	Heibai.LoadModel("Models/heibai.obj");
-
-
 
 	Lampara = Model();
 	Lampara.LoadModel("Models/Lampara.obj");
@@ -402,14 +399,14 @@ int main()
 	Planeta = Model();
 	Planeta.LoadModel("Models/Planeta.obj");
 
-	Bolita = Model();
-	Bolita.LoadModel("Models/Bola.obj");
-
 	Picnic = Model();
 	Picnic.LoadModel("Models/picnic.obj");
 
 	Hongo = Model();
 	Hongo.LoadModel("Models/hongo.obj");
+
+	Bolita = Model();
+	Bolita.LoadModel("Models/Bola.obj");
 
 	Arbusto = Model();
 	Arbusto.LoadModel("Models/arbusto.obj");
@@ -425,6 +422,7 @@ int main()
 
 	granja = Model();
 	granja.LoadModel("Models/granja.obj");
+
 
 
 	std::vector<std::string> skyboxFaces;
@@ -465,16 +463,34 @@ int main()
 
 	//luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
-		0.3f, 0.3f,
+		0.6f, 0.6f,
 		0.0f, 0.0f, -1.0f);
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
+	unsigned int pointLightCount2 = 0;
+	unsigned int pointLightCount3 = 0;
+
 	//Declaración de primer luz puntual
 	pointLights[0] = PointLight(1.0f, 0.0f, 0.0f,
-		0.0f, 1.0f,
-		0.0f, 2.5f, 1.5f,
+		0.0f, 160.0f,
+		-10.0f, -1.5f, -99.5f,
 		0.3f, 0.2f, 0.1f);
 	pointLightCount++;
+
+	//Declaración de primer luz puntual
+	pointLights[1] = PointLight(1.0f, 0.0f, 0.0f,
+		0.0f, 160.0f,
+		45.0f, -1.5f, -99.5f,
+		0.3f, 0.2f, 0.1f);
+	pointLightCount++;
+
+	//templo fuego 
+	pointLights[2] = PointLight(1.0f, 0.0f, 0.0f,
+		0.0f, 160.0f,
+		-10.0f, -1.5f, 68.5f,
+		0.3f, 0.2f, 0.1f);
+	pointLightCount++;
+
 
 	unsigned int spotLightCount = 0;
 	//linterna
@@ -486,15 +502,16 @@ int main()
 		5.0f);
 	spotLightCount++;
 
+	/*
 	//luz fija
-	spotLights[1] = SpotLight(0.0f, 0.0f, 1.0f,
-		1.0f, 2.0f,
-		5.0f, 10.0f, 0.0f,
-		0.0f, -5.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		15.0f);
+	spotLights[1] = SpotLight(1.0f, 0.0f, 0.0f,
+		27.0f, 27.0f,
+		-10.0f, -1.5f, -93.0f,
+		0.0f, -20.0f, 0.0f,
+		1.0f, 3.0f, 0.0f,
+		31.0f);
 	spotLightCount++;
-
+	*/
 	//luz de helicóptero
 
 	//luz de faro
@@ -502,10 +519,10 @@ int main()
 
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
-		uniformSpecularIntensity = 0, uniformShininess = 0, uniformTextureOffset=0;
+		uniformSpecularIntensity = 0, uniformShininess = 0, uniformTextureOffset = 0;
 	GLuint uniformColor = 0;
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
-	
+
 	movCoche = 0.0f;
 	movOffset = 0.3f;//velocidad del carro
 	rotllanta = 0.0f;
@@ -519,7 +536,7 @@ int main()
 
 	globoAngle = 0.0f;
 	globoOffset = 10.0f;
-	
+
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
 	{
@@ -528,7 +545,7 @@ int main()
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
 
-		angulovaria += 0.5f*deltaTime;
+		angulovaria += 0.5f * deltaTime;
 
 		if (movCoche > -300.0f)
 		{
@@ -536,10 +553,10 @@ int main()
 			//printf("avanza%f \n ",movCoche);
 			rotllanta += rotllantaOffset * deltaTime;
 		}
-		
+
 		if (avanzaHeli) {
 			if (movHeli > -100) {
-				movHeli -= 0.05*movHeliOffset*deltaTime;
+				movHeli -= 0.05 * movHeliOffset * deltaTime;
 			}
 			else {
 				avanzaHeli = !avanzaHeli;
@@ -547,7 +564,7 @@ int main()
 		}
 		else {
 			if (movHeli < 100) {
-				movHeli += 0.05*movHeliOffset * deltaTime;
+				movHeli += 0.05 * movHeliOffset * deltaTime;
 			}
 			else {
 				avanzaHeli = !avanzaHeli;
@@ -610,7 +627,7 @@ int main()
 		shaderList[0].SetDirectionalLight(&mainLight);
 		shaderList[0].SetPointLights(pointLights, pointLightCount);
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
-		
+
 		//hola
 		//hola
 
@@ -619,7 +636,7 @@ int main()
 		glm::mat4 modelaux(1.0);
 		glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
 		glm::vec2 toffset = glm::vec2(0.0f, 0.0f);
-		
+
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 
 
@@ -629,12 +646,12 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		//glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		
+
 		pisoTexture.UseTexture();
 		//Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 
 		//meshList[2]->RenderMesh();
-		
+
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(30.0f, 1.0f, 30.0f));
@@ -644,10 +661,10 @@ int main()
 
 		//Vehículos **********************************************************
 
-		
 		//Avión 1
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-25.5f, 40.5f, 40.5f));
+		model = glm::translate(model, glm::vec3(-160.5f, 150.5f, 40.5f));
 		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Avion.RenderModel();
@@ -655,47 +672,43 @@ int main()
 		//Aspa
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(-25.0f, 40.5f, 15.5f));
+		model = glm::translate(model, glm::vec3(-158.5f, 150.5f, 18.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Aspa.RenderModel();
 
 		// Carrito 2
-
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(60.5f, -2.0f, 15.5f));
+		model = glm::translate(model, glm::vec3(60.5f, -2.0f, 170.0f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Carro.RenderModel();
 
-
-
 		//aerostatico 3
 
-		model = glm::mat4(1.0);	
+		model = glm::mat4(1.0);
 		//model = glm::translate(model, glm::vec3(globoAngle, 30.5f, 37.0f));
 		model = glm::translate(model, glm::vec3(25.5f, 50.5f, 37.5f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
+		model = glm::translate(model, glm::vec3(120.0f, 30.5f, 37.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		//model = glm::rotate(model, globoAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		aerostatico.RenderModel();	
-			
-
-
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		aerostatico.RenderModel();
 
 
 		//Decoración ********************************************************* 
-		
+
 		//Lampara 1
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-103.0f, -1.5f, -12.0f));
+		model = glm::translate(model, glm::vec3(-103.0f, -1.5f, 10.0f));
 		model = glm::scale(model, glm::vec3(1.4f, 1.4f, 1.4f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
 
-		//lampara por el temolo de fuego
+		//lampara casa de totoro
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(-75.0f, -1.5f, 70.0f));
+		model = glm::translate(model, glm::vec3(-10.0f, -1.5f, -100.0f));
 		model = glm::scale(model, glm::vec3(1.4f, 1.4f, 1.4f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
@@ -703,31 +716,50 @@ int main()
 		//lampara abajo del templo del fuego 
 
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(-10.0f, -1.5f, 70.0f));
+		model = glm::translate(model, glm::vec3(-10.0f, -1.6f, 70.0f));
+		pointLights[0];
 		model = glm::scale(model, glm::vec3(1.4f, 1.4f, 1.4f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
-			
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(45.0f, -1.6f, -100.0f));
+		pointLights[1];
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Lampara.RenderModel();
+
 
 		//Corral  2
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-70.0f, 0.4f, 0.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 3.0f));	
+		model = glm::translate(model, glm::vec3(120.0f, 0.4f, -60.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 3.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Corral.RenderModel();
 
 		//Planeta  3
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-96.0f, 95.0f, -30.0f));
-		model = glm::scale(model, glm::vec3(8.5f, 8.5f, 8.5f));
+		model = glm::translate(model, glm::vec3(-106.0f, 8.0f, -25.0f));
+		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Planeta.RenderModel();
 
 		//Banca  4
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(100.0f, 2.0f, 89.0f));
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Picnic.RenderModel();
 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(25.0f, 2.0f, 89.0f));
-		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+		model = glm::translate(model, glm::vec3(75.0f, 2.0f, 89.0f));
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Picnic.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(90.0f, 2.0f, 110.0f));
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Picnic.RenderModel();
 
@@ -740,28 +772,20 @@ int main()
 		Molino.RenderModel();
 
 		//antorcha
-		
+
 		//antorcha para el templo tierra
 
-		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(30.5f, -2.0f, -30.5f));
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(30.5f, -2.0f, -105.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));//Primero acostado , segundo caras , tercero inclinado	
-		model = glm::scale(model, glm::vec3(12.0f, 12.0f, 12.0f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
-		antorcha.RenderModel();	
-
-			
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(36.0f, -2.0f, -30.5f));	
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));	
 		model = glm::scale(model, glm::vec3(12.0f, 12.0f, 12.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
-		antorcha.RenderModel();	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		antorcha.RenderModel();
+
 
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(15.0f, -2.0f, -30.5f));
+		model = glm::translate(model, glm::vec3(36.0f, -2.0f, -105.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(12.0f, 12.0f, 12.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -769,7 +793,15 @@ int main()
 		antorcha.RenderModel();
 
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(8.0f, -2.0f, -30.5f));
+		model = glm::translate(model, glm::vec3(15.0f, -2.0f, -105.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(12.0f, 12.0f, 12.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		antorcha.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(8.0f, -2.0f, -105.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(12.0f, 12.0f, 12.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -784,32 +816,39 @@ int main()
 
 		//Bolita 1
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-40.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(150.0f, 0.0f, -20.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Bolita.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(140.0f, 0.0f, -20.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Bolita.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(160.0f, 0.0f, -30.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Bolita.RenderModel();
 
 		//heibai
-
-		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(-10.5f, -2.0f, -78.5f));	
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
-		Heibai.RenderModel();	
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(180.0f, -2.0f, -70.0f));
+		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Heibai.RenderModel();
 
 		//momo
-
-		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(-93.5f, -2.0f, 55.5f));	
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
-		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
-		Momo.RenderModel();	
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(160.0f, 0.0f, -80.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Momo.RenderModel();
 
 		//aang
-
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(19.0f, -2.0f, 78.0f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -819,87 +858,38 @@ int main()
 		aang.RenderModel();
 
 
-			
-
-
 		//Flora ****************************************************************
 
 		//Hongo 1
 
 		//hongo cerca de momo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-96.0f, 7.5f, 48.0f));
-		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
-		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::translate(model, glm::vec3(95.0f, 0.0f, 60.0f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Hongo.RenderModel();
 
 		//hongo cerca de momo
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(-100.0f, 2.0f, 65.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::translate(model, glm::vec3(80.0f, 0.0f, 125.0f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Hongo.RenderModel();
 
 		//hongo cerca de la casa de totoro
-		
-		model = modelaux;	
-		model = glm::translate(model, glm::vec3(-80.0f, 7.5f, -49.0f));	
-		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));	
-		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		Hongo.RenderModel();	
-
-		//ABAJO DE LA CASA DE TOTORO
 
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(-18.0f, 7.5f, -48.0f));
-		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Hongo.RenderModel();
-
-		//HONGO CERCA DEL TEMPLO DE FUEGO ABAJO
-
-		model = modelaux;	
-		model = glm::translate(model, glm::vec3(-2.0f, 2.0f, 63.0f));	
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
-		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		Hongo.RenderModel();
-
-		//HONGO ABAJO DE AANG
-
-
-		model = modelaux;	
-		model = glm::translate(model, glm::vec3(25.0f, 2.0f, 63.0f));	
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		Hongo.RenderModel();	
-
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(35.0f, 2.0f, 75.0f));
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Hongo.RenderModel();
-
-
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(35.0f, 5.5f, 89.0f));
-		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
-		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	
+		model = glm::translate(model, glm::vec3(60.0f, 0.0f, 100.0f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Hongo.RenderModel();
 
 
 
-		
 		//arbusto 2
 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(60.0f, 0.0f, 25.0f));
+		model = glm::translate(model, glm::vec3(60.0f, 0.0f, 40.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Arbusto.RenderModel();
@@ -914,56 +904,27 @@ int main()
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		tronco.RenderModel();
 
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(-29.5f, -2.0f, 25.5f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		tronco.RenderModel();
-
-		//tronco cerca de momo 
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(-108.5f, -2.0f, 65.5f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(7.5f, 7.5f, 7.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		tronco.RenderModel();
-
-		//tronco cerca de la casa de totoro
-
-		model = modelaux;	
-		model = glm::translate(model, glm::vec3(-90.5f, -2.0f, -60.5f));	
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
-		model = glm::scale(model, glm::vec3(8.0f, 8.0f,8.0f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
-		tronco.RenderModel();	
-
-
 		//pino
 
 		//cerca de la lamparra del principio
-		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(-100.5f, -2.0f, -16.5f));	
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
-		model = glm::scale(model, glm::vec3(0.09f, 0.09f, 0.09f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
-		arbol.RenderModel();
-
-
-		model = modelaux;	
-		model = glm::translate(model, glm::vec3(-105.5f, -2.0f, -4.5f));	
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
-		model = glm::scale(model, glm::vec3(0.09f, 0.09f, 0.09f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-100.5f, -2.0f, 0.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.09f, 0.09f, 0.09f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		arbol.RenderModel();
 
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(-98.5f, -2.0f, -5.5f));
+		model = glm::translate(model, glm::vec3(-105.5f, -2.0f, -2.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.09f, 0.09f, 0.09f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		arbol.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-98.5f, -40.0f, -5.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -972,47 +933,47 @@ int main()
 
 		//cerca de la lampara donde esta momo y el templo del fuego
 
-		model = modelaux;	
-		model = glm::translate(model, glm::vec3(-80.5f, -2.0f, 70.5f));	
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
-		model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-80.5f, -2.0f, 70.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		arbol.RenderModel();
 
-		model = modelaux;	
-		model = glm::translate(model, glm::vec3(-85.5f, -2.0f, 65.5f));	
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
-		model = glm::scale(model, glm::vec3(0.07f, 0.08f, 0.07f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
-		arbol.RenderModel();	
-			
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(-70.5f, -2.0f, 75.5f));	
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
-		model = glm::scale(model, glm::vec3(0.08f, 0.07f, 0.07f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
-		arbol.RenderModel();	
+		model = glm::translate(model, glm::vec3(-85.5f, -2.0f, 65.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.07f, 0.08f, 0.07f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		arbol.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-70.5f, -2.0f, 75.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.08f, 0.07f, 0.07f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		arbol.RenderModel();
 
 
 		//pino cerca de la casa de totoro
 
-		model = modelaux;	
+		model = modelaux;
 		model = glm::translate(model, glm::vec3(-90.5f, -2.0f, -49.5f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
-		model = glm::scale(model, glm::vec3(0.08f, 0.07f, 0.07f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
-		arbol.RenderModel();	
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.08f, 0.07f, 0.07f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		arbol.RenderModel();
 
-		model = modelaux;	
-		model = glm::translate(model, glm::vec3(-70.5f, -2.0f, -42.5f));	
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
-		model = glm::scale(model, glm::vec3(0.09f, 0.07f, 0.07f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		arbol.RenderModel();	
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-70.5f, -2.0f, -42.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.09f, 0.07f, 0.07f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		arbol.RenderModel();
 
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(-76.5f, -2.0f, -45.5f));
@@ -1039,22 +1000,22 @@ int main()
 
 		//PINO CERCA DEL TEMPLO DEL FUEGO ABAJO 
 
-		model = modelaux;	
-		model = glm::translate(model, glm::vec3(1.5f, -2.0f, 70.5f));	
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
-		model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(1.5f, -2.0f, 70.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		arbol.RenderModel();
 
 		//pino cerca del avatar 
 
-		model = modelaux;	
-		model = glm::translate(model, glm::vec3(-2.0f, -2.0f, 77.5f));	
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
-		model = glm::scale(model, glm::vec3(0.09f, 0.09, 0.09f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		arbol.RenderModel();	
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-2.0f, -2.0f, 77.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.09f, 0.09, 0.09f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		arbol.RenderModel();
 
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(-8.0f, -2.0f, 76.5f));
@@ -1064,51 +1025,35 @@ int main()
 		arbol.RenderModel();
 
 
-
-
-
-
-		//Edificio *************************************************************
-
-		//(pared)
-
-		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(-30.5f, -2.0f, 29.5f));	
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
-		Pared.RenderModel();	
+		//Edificio *************************************************************	
 
 		//templo tierra
 
-		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(25.0f, -2.0f, -45.5f));	
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		T_Tierra.RenderModel();	
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(25.0f, -2.0f, -120.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		T_Tierra.RenderModel();
 
 		//templo fuego
 
-		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(-45.5f, -2.0f, 104.5f));	
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));	
-		model = glm::scale(model, glm::vec3(0.15f, 0.25f, 0.15f));	
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
-		Fuego.RenderModel();	
-
-
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-45.5f, -2.0f, 104.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.15f, 0.25f, 0.15f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Fuego.RenderModel();
 
 		//casa totoro
-
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-125.5f, -25.0f, 208.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Casa.RenderModel();
+
 
 		//granja
 
@@ -1120,18 +1065,14 @@ int main()
 		granja.RenderModel();
 
 
-
-
-
 		//Avatar ***************************************************************
 
 
-
-
+		/*
 		//Llanta delantera izquierda
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(7.0f, -0.5f, 8.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glfm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, rotllanta * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		color = glm::vec3(0.5f, 0.5f, 0.5f);//llanta con color gris
@@ -1176,7 +1117,7 @@ int main()
 		//color = glm::vec3(0.0f, 1.0f, 0.0f);
 		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Blackhawk_M.RenderModel();	
+		Blackhawk_M.RenderModel();
 
 
 
@@ -1191,7 +1132,7 @@ int main()
 		AgaveTexture.UseTexture();
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[3]->RenderMesh();
-		
+
 		//textura con movimiento
 		//Importantes porque la variable uniform no podemos modificarla directamente
 		toffsetflechau += 0.001;
@@ -1286,46 +1227,47 @@ int main()
 			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 			meshList[6]->RenderMesh();
 		}
- 
 
-		//número cambiante 
+
+		//número cambiante
 		/*
 		¿Cómo hacer para que sea a una velocidad visible?
 		*/
-		toffsetnumerocambiau += 0.25; 
-		if (toffsetnumerocambiau > 1.0)
-			toffsetnumerocambiau = 0.0;
-		toffsetnumerov = 0.0;
-		toffset = glm::vec2(toffsetnumerocambiau, toffsetnumerov);
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-10.0f, 10.0f, -6.0f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		NumerosTexture.UseTexture();
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		meshList[6]->RenderMesh();
+		/*
+				toffsetnumerocambiau += 0.25;
+				if (toffsetnumerocambiau > 1.0)
+					toffsetnumerocambiau = 0.0;
+				toffsetnumerov = 0.0;
+				toffset = glm::vec2(toffsetnumerocambiau, toffsetnumerov);
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(-10.0f, 10.0f, -6.0f));
+				model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+				model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+				glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				color = glm::vec3(1.0f, 1.0f, 1.0f);
+				glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+				NumerosTexture.UseTexture();
+				Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+				meshList[6]->RenderMesh();
 
-		//cambiar automáticamente entre textura número 1 y número 2
-		toffsetnumerou = 0.0;
-		toffsetnumerov = 0.0;
-		toffset = glm::vec2(toffsetnumerou, toffsetnumerov);
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-13.0f, 10.0f, -6.0f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		Numero1Texture.UseTexture();
-		//if
-		//Numero1Texture.UseTexture();
-		//Numero2Texture.UseTexture();
-		
+				//cambiar automáticamente entre textura número 1 y número 2
+				toffsetnumerou = 0.0;
+				toffsetnumerov = 0.0;
+				toffset = glm::vec2(toffsetnumerou, toffsetnumerov);
+				model = glm::mat4(1.0);
+				model = glm::translate(model, glm::vec3(-13.0f, 10.0f, -6.0f));
+				model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+				model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+				glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+				glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+				color = glm::vec3(1.0f, 1.0f, 1.0f);
+				glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+				Numero1Texture.UseTexture();
+				//if
+				//Numero1Texture.UseTexture();
+				//Numero2Texture.UseTexture();
+				*/
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[5]->RenderMesh();
 
@@ -1333,8 +1275,8 @@ int main()
 
 
 		glDisable(GL_BLEND);
-		
-		
+
+
 
 
 
