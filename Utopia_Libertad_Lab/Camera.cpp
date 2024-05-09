@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Camera.h"
 
 Camera::Camera() {}
 
@@ -62,6 +63,34 @@ void Camera::mouseControl(GLfloat xChange, GLfloat yChange)
 	update();
 }
 
+void Camera::mouseControl2(GLfloat xChange, GLfloat yChange)
+{
+	xChange *= turnSpeed;
+	yChange *= turnSpeed;
+
+	yaw += xChange;
+	pitch += yChange;
+
+	if (pitch > 89.0f)
+	{
+		pitch = 89.0f;
+	}
+
+	if (pitch < -89.0f)
+	{
+		pitch = -89.0f;
+	}
+
+	update();
+}
+
+GLfloat  Camera::getYaw() {
+	return yaw;
+}
+GLfloat  Camera::getPitch() {
+	return pitch;
+}
+
 glm::mat4 Camera::calculateViewMatrix()
 {
 	return glm::lookAt(position, position + front, up);
@@ -93,3 +122,5 @@ void Camera::update()
 Camera::~Camera()
 {
 }
+
+
