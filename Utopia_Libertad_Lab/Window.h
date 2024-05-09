@@ -19,8 +19,10 @@ public:
 	GLfloat getLuzFaro() { return LuzFaro; }
 	GLfloat getcambioSpot() { return cambioSpot; }
 	GLfloat getLuzHongo() { return LuzHongo; }
+	GLfloat getcambiacamara() { return cambiacamara; }
 	bool getShouldClose() {
-		return  glfwWindowShouldClose(mainWindow);}
+		return  glfwWindowShouldClose(mainWindow);
+	}
 	bool* getsKeys() { return keys; }
 	void swapBuffers() { return glfwSwapBuffers(mainWindow); }
 	
@@ -41,6 +43,7 @@ private:
 	GLfloat LuzHongo;
 	GLfloat cambioSpot;
 	GLfloat LuzFaro;
+	GLfloat cambiacamara;
 	bool mouseFirstMoved;
 	static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);
 	static void ManejaMouse(GLFWwindow* window, double xPos, double yPos);
