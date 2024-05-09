@@ -1,8 +1,8 @@
 /*
-Animación:
-Sesión 1:
-Simple o básica:Por banderas y condicionales (más de 1 transformación geométrica se ve modificada
-Sesión 2
+AnimaciÃ³n:
+SesiÃ³n 1:
+Simple o bÃ¡sica:Por banderas y condicionales (mÃ¡s de 1 transformaciÃ³n geomÃ©trica se ve modificada
+SesiÃ³n 2
 Compleja: Por medio de funciones y algoritmos.
 Textura Animada
 */
@@ -33,7 +33,7 @@ Textura Animada
 #include"Model.h"
 #include "Skybox.h"
 
-//para iluminación
+//para iluminaciÃ³n
 #include "CommonValues.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
@@ -41,7 +41,7 @@ Textura Animada
 #include "Material.h"
 const float toRadians = 3.14159265f / 180.0f;
 
-//variables para animación
+//variables para animaciÃ³n
 float movCoche;
 float movOffset;
 float movHeli;
@@ -79,25 +79,20 @@ Model Kitt_M;
 Model Llanta_M;
 Model Blackhawk_M;
 
-Model Avion;
-Model Aspa;
-Model Lampara;
-Model Corral;
-Model Planeta;
-Model Domo;
-Model Casa;
-Model Carro;
-Model Bancas;
-Model Bolita;
-Model Hongo;
-Model Arbusto;
-Model Mariposa;
-Model Picnic;
-Model Molino;
 
 
-Skybox skybox_dia;
-Skybox skybox_noche;
+Model T_Tierra;
+Model Fuego;
+Model Momo;
+Model antorha;
+Model tronco;
+Model antorcha;
+Model aerostatico;
+Model arbol;
+Model aang;
+Model Pared;
+Model Heibai;
+
 Skybox skybox;
 
 //materiales
@@ -124,7 +119,7 @@ static const char* fShader = "shaders/shader_light.frag";
 
 
 
-//cálculo del promedio de las normales para sombreado de Phong
+//cÃ¡lculo del promedio de las normales para sombreado de Phong
 void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat* vertices, unsigned int verticeCount,
 	unsigned int vLength, unsigned int normalOffset)
 {
@@ -255,7 +250,6 @@ void CreateObjects()
 	obj3->CreateMesh(floorVertices, floorIndices, 32, 6);
 	meshList.push_back(obj3);
 
-
 	Mesh* obj4 = new Mesh();
 	obj4->CreateMesh(vegetacionVertices, vegetacionIndices, 64, 12);
 	meshList.push_back(obj4);
@@ -322,10 +316,45 @@ int main()
 	Blackhawk_M = Model();
 	Blackhawk_M.LoadModel("Models/Black.obj");
 
+
 	Avion = Model();
 	Avion.LoadModel("Models/Avion.obj");
 	Aspa = Model();
 	Aspa.LoadModel("Models/Aspa.obj");
+  
+	//MODELOS
+
+	T_Tierra = Model();
+	T_Tierra.LoadModel("Models/templo_de_tierra.obj");
+
+	Fuego = Model();
+	Fuego.LoadModel("Models/fuego.obj");
+
+	Momo = Model();
+	Momo.LoadModel("Models/momo.obj");
+
+	tronco = Model();
+	tronco.LoadModel("Models/tronco.obj");
+
+	antorcha = Model();
+	antorcha.LoadModel("Models/antorcha.obj");
+
+	aerostatico = Model();
+	aerostatico.LoadModel("Models/aerostatico.obj");
+
+	arbol = Model();
+	arbol.LoadModel("Models/11.obj");
+
+	aang = Model();
+	aang.LoadModel("Models/estatuaa.obj");
+
+	Pared = Model();
+	Pared.LoadModel("Models/pared.obj");
+
+	Heibai = Model();
+	Heibai.LoadModel("Models/heibai.obj");
+
+
 
 	Lampara = Model();
 	Lampara.LoadModel("Models/Lampara.obj");
@@ -387,13 +416,13 @@ int main()
 	Material_opaco = Material(0.3f, 4);
 
 
-	//luz direccional, sólo 1 y siempre debe de existir
+	//luz direccional, sÃ³lo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.3f, 0.3f,
 		0.0f, 0.0f, -1.0f);
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
-	//Declaración de primer luz puntual
+	//DeclaraciÃ³n de primer luz puntual
 	pointLights[0] = PointLight(1.0f, 0.0f, 0.0f,
 		0.0f, 1.0f,
 		0.0f, 2.5f, 1.5f,
@@ -419,7 +448,7 @@ int main()
 		15.0f);
 	spotLightCount++;
 
-	//luz de helicóptero
+	//luz de helicÃ³ptero
 
 	//luz de faro
 
@@ -493,7 +522,7 @@ int main()
 		uniformColor = shaderList[0].getColorLocation();
 		uniformTextureOffset = shaderList[0].getOffsetLocation();
 
-		//información en el shader de intensidad especular y brillo
+		//informaciÃ³n en el shader de intensidad especular y brillo
 		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 		uniformShininess = shaderList[0].GetShininessLocation();
 
@@ -501,16 +530,18 @@ int main()
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
 		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
 
-		// luz ligada a la cámara de tipo flash
+		// luz ligada a la cÃ¡mara de tipo flash
 		glm::vec3 lowerLight = camera.getCameraPosition();
 		lowerLight.y -= 0.3f;
 		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
-		//información al shader de fuentes de iluminación
+		//informaciÃ³n al shader de fuentes de iluminaciÃ³n
 		shaderList[0].SetDirectionalLight(&mainLight);
 		shaderList[0].SetPointLights(pointLights, pointLightCount);
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
-
+		
+		//hola
+		//hola
 
 
 		glm::mat4 model(1.0);
@@ -538,9 +569,9 @@ int main()
 		pisoTexture.UseTexture();
 		meshList[2]->RenderMesh();
 
-		//Vehículos **********************************************************
+		//VehÃ­culos **********************************************************
 		
-		//Avión 1
+		//AviÃ³n 1
 		model = glm::mat4(1.0);
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Avion.RenderModel();
@@ -554,7 +585,7 @@ int main()
 		// Carrito 2
 
 
-		//Decoración ********************************************************* 
+		//DecoraciÃ³n ********************************************************* 
 		
 		//Lampara 1
 		model = glm::mat4(1.0);
@@ -629,14 +660,7 @@ int main()
 
 
 
-		//Instancia del coche 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(movCoche-50.0f, 0.5f, -2.0f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Kitt_M.RenderModel();
+		
 
 		//Llanta delantera izquierda
 		model = modelaux;
@@ -687,11 +711,104 @@ int main()
 		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Blackhawk_M.RenderModel();
+
+
+		//MODELOS
+
+		//1
+		model = glm::mat4(1.0);	
+		model = glm::translate(model, glm::vec3(15.5f, -0.5f, 1.5f));	
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));	
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		T_Tierra.RenderModel();	
+
 		
+		//2
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-13.5f, -0.5f, 9.5f));	
+		model = glm::scale(model, glm::vec3(0.08f, 0.08f, 0.08f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		Fuego.RenderModel();	
+
+
+		//3
+		model = glm::mat4(1.0);	
+		model = glm::translate(model, glm::vec3(-17.5f, -0.5f, 27.5f));	
+		model = glm::scale(model, glm::vec3(0.04f, 0.04f, 0.04f));	
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		Momo.RenderModel();	
+
+
+		//4
+		model = glm::mat4(1.0);	
+		model = glm::translate(model, glm::vec3(-29.5f, -0.5f, 25.5f));	
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		tronco.RenderModel();	
+
+
+		//5
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-38.5f, -0.5f, 25.5f));
+		model = glm::scale(model, glm::vec3(14.0f, 14.0f, 14.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		antorcha.RenderModel();
+
+
+		//6
+		model = glm::mat4(1.0);	
+		model = glm::translate(model, glm::vec3(-38.5f, 14.5f, 25.5f));	
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		aerostatico.RenderModel();	
+
+		
+		//7
+		model = glm::mat4(1.0);	
+		model = glm::translate(model, glm::vec3(-38.5f, -0.5f, 29.5f));	
+		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));	
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		arbol.RenderModel();
+
+
+		//8
+		model = glm::mat4(1.0);	
+		model = glm::translate(model, glm::vec3(-45.5f, -0.5f, 29.5f));	
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		aang.RenderModel();	
+
+		
+		//9
+	
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-50.5f, -0.5f, 29.5f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Pared.RenderModel();
+
+		//10
+
+		model = glm::mat4(1.0);	
+		model = glm::translate(model, glm::vec3(-60.5f, -0.5f, 29.5f));	
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		Heibai.RenderModel();	
+
 
 		
 
-		//Agave ¿qué sucede si lo renderizan antes del coche y de la pista?
+		//Agave Â¿quÃ© sucede si lo renderizan antes del coche y de la pista?
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 0.5f, -2.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
@@ -728,7 +845,7 @@ int main()
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[4]->RenderMesh();
 
-		//plano con todos los números
+		//plano con todos los nÃºmeros
 		toffsetnumerou = 0.0;
 		toffsetnumerov = 0.0;
 		toffset = glm::vec2(toffsetnumerou, toffsetnumerov);
@@ -744,7 +861,7 @@ int main()
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[5]->RenderMesh();
 
-		//número 1
+		//nÃºmero 1
 		//toffsetnumerou = 0.0;
 		//toffsetnumerov = 0.0;
 		model = glm::mat4(1.0);
@@ -761,7 +878,7 @@ int main()
 
 		for (int i = 1; i<4; i++)
 		{
-			//números 2-4
+			//nÃºmeros 2-4
 			toffsetnumerou += 0.25;
 			toffsetnumerov = 0.0;
 			toffset = glm::vec2(toffsetnumerou, toffsetnumerov);
@@ -781,7 +898,7 @@ int main()
 
 		for (int j = 1; j < 5; j++)
 		{
-			//números 5-8
+			//nÃºmeros 5-8
 			toffsetnumerou += 0.25;
 			toffsetnumerov = -0.33;
 			toffset = glm::vec2(toffsetnumerou, toffsetnumerov);
@@ -799,9 +916,9 @@ int main()
 		}
  
 
-		//número cambiante 
+		//nÃºmero cambiante 
 		/*
-		¿Cómo hacer para que sea a una velocidad visible?
+		Â¿CÃ³mo hacer para que sea a una velocidad visible?
 		*/
 		toffsetnumerocambiau += 0.25; 
 		if (toffsetnumerocambiau > 1.0)
@@ -820,7 +937,7 @@ int main()
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[6]->RenderMesh();
 
-		//cambiar automáticamente entre textura número 1 y número 2
+		//cambiar automÃ¡ticamente entre textura nÃºmero 1 y nÃºmero 2
 		toffsetnumerou = 0.0;
 		toffsetnumerov = 0.0;
 		toffset = glm::vec2(toffsetnumerou, toffsetnumerov);
