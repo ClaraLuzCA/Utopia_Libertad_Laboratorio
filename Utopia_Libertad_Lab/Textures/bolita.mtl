@@ -1,0 +1,137 @@
+# 3ds Max Wavefront OBJ Exporter v0.99 - (c)2007 guruware
+# File Created: 08.05.2024 19:15:51
+
+newmtl Body
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.0000 0.0000 0.0000
+	Tr 0.0000
+	d 1.0000
+	Tf 0.0000 0.0000 0.0000
+	Pr 0.0000
+	Pm 0.0000
+	Pc 0.0000
+	Pcr 0.0000
+	Ni 1.5200
+	Ke 0.0000 0.0000 0.0000
+	illum 2
+	map_Kd C:\Users\clara\OneDrive\Escritorio\Modelos 3D cgih\susuwatari\source\maya2sketchfab.fbm\LBT_Body_BaseColor.png
+
+newmtl PinkOrigami
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.0000 0.0000 0.0000
+	Tr 0.0000
+	d 1.0000
+	Tf 0.0000 0.0000 0.0000
+	Pr 0.0000
+	Pm 0.0000
+	Pc 0.0000
+	Pcr 0.0000
+	Ni 1.5200
+	Ke 0.0000 0.0000 0.0000
+	illum 2
+	map_Kd C:\Users\clara\OneDrive\Escritorio\Modelos 3D cgih\susuwatari\source\maya2sketchfab.fbm\LBT_PinkOrigami_BaseColor.png
+
+newmtl Spikes
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.0000 0.0000 0.0000
+	Tr 0.0000
+	d 1.0000
+	Tf 0.0000 0.0000 0.0000
+	Pr 0.0000
+	Pm 0.0000
+	Pc 0.0000
+	Pcr 0.0000
+	Ni 1.5200
+	Ke 0.0000 0.0000 0.0000
+	illum 2
+	map_Kd C:\Users\clara\OneDrive\Escritorio\Modelos 3D cgih\susuwatari\source\maya2sketchfab.fbm\LBT_Spikes_BaseColor.png
+
+newmtl GreenOrigami
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.0000 0.0000 0.0000
+	Tr 0.0000
+	d 1.0000
+	Tf 0.0000 0.0000 0.0000
+	Pr 0.0000
+	Pm 0.0000
+	Pc 0.0000
+	Pcr 0.0000
+	Ni 1.5200
+	Ke 0.0000 0.0000 0.0000
+	illum 2
+	map_Kd C:\Users\clara\OneDrive\Escritorio\Modelos 3D cgih\susuwatari\source\maya2sketchfab.fbm\LBT_GreenOrigami_BaseColor.png
+
+newmtl PurpleOrigami
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.0000 0.0000 0.0000
+	Tr 0.0000
+	d 1.0000
+	Tf 0.0000 0.0000 0.0000
+	Pr 0.0000
+	Pm 0.0000
+	Pc 0.0000
+	Pcr 0.0000
+	Ni 1.5200
+	Ke 0.0000 0.0000 0.0000
+	illum 2
+	map_Kd C:\Users\clara\OneDrive\Escritorio\Modelos 3D cgih\susuwatari\source\maya2sketchfab.fbm\LBT_PurpleOrigami_BaseColor.png
+
+newmtl OrangeOrigami
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.0000 0.0000 0.0000
+	Tr 0.0000
+	d 1.0000
+	Tf 0.0000 0.0000 0.0000
+	Pr 0.0000
+	Pm 0.0000
+	Pc 0.0000
+	Pcr 0.0000
+	Ni 1.5200
+	Ke 0.0000 0.0000 0.0000
+	illum 2
+	map_Kd C:\Users\clara\OneDrive\Escritorio\Modelos 3D cgih\susuwatari\source\maya2sketchfab.fbm\LBT_OrangeOrigami_BaseColor.png
+
+newmtl BlueOrigami
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.0000 0.0000 0.0000
+	Tr 0.0000
+	d 1.0000
+	Tf 0.0000 0.0000 0.0000
+	Pr 0.0000
+	Pm 0.0000
+	Pc 0.0000
+	Pcr 0.0000
+	Ni 1.5200
+	Ke 0.0000 0.0000 0.0000
+	illum 2
+	map_Kd C:\Users\clara\OneDrive\Escritorio\Modelos 3D cgih\susuwatari\source\maya2sketchfab.fbm\LBT_BlueOrigami_BaseColor.png
+
+newmtl YellowOrigami
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.0000 0.0000 0.0000
+	Tr 0.0000
+	d 1.0000
+	Tf 0.0000 0.0000 0.0000
+	Pr 0.0000
+	Pm 0.0000
+	Pc 0.0000
+	Pcr 0.0000
+	Ni 1.5200
+	Ke 0.0000 0.0000 0.0000
+	illum 2
+	map_Kd C:\Users\clara\OneDrive\Escritorio\Modelos 3D cgih\susuwatari\source\maya2sketchfab.fbm\LBT_YellowOrigami_BaseColor.png
+
+newmtl ArmsandLegs
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.0000 0.0000 0.0000
+	Tr 0.0000
+	d 1.0000
+	Tf 0.0000 0.0000 0.0000
+	Pr 0.0000
+	Pm 0.0000
+	Pc 0.0000
+	Pcr 0.0000
+	Ni 1.5200
+	Ke 0.0000 0.0000 0.0000
+	illum 2
+	map_Kd C:\Users\clara\OneDrive\Escritorio\Modelos 3D cgih\susuwatari\source\maya2sketchfab.fbm\LBT_ArmsandLegs_BaseColor.png
