@@ -535,7 +535,7 @@ int main()
 	//aerostatico
 
 	globoAngle = 0.0f;
-	globoOffset = 10.0f;
+	globoOffset = 60.0f;
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
