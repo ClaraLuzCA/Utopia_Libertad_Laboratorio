@@ -79,6 +79,26 @@ Model Kitt_M;
 Model Llanta_M;
 Model Blackhawk_M;
 
+Model Avion;
+Model Aspa;
+Model Lampara;
+Model Corral;
+Model Planeta;
+Model Domo;
+Model Casa;
+Model Carro;
+Model Bancas;
+Model Bolita;
+Model Hongo;
+Model Arbusto;
+Model Mariposa;
+Model Picnic;
+Model Molino;
+
+
+Skybox skybox_dia;
+Skybox skybox_noche;
+Skybox skybox;
 
 
 Model T_Tierra;
