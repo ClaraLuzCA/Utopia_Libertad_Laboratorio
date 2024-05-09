@@ -85,7 +85,13 @@ Model T_Tierra;
 Model Fuego;
 Model Momo;
 Model antorha;
-
+Model tronco;
+Model antorcha;
+Model aerostatico;
+Model arbol;
+Model aang;
+Model Pared;
+Model Heibai;
 
 Skybox skybox;
 
@@ -321,6 +327,27 @@ int main()
 	Momo = Model();
 	Momo.LoadModel("Models/momo.obj");
 
+	tronco = Model();
+	tronco.LoadModel("Models/tronco.obj");
+
+	antorcha = Model();
+	antorcha.LoadModel("Models/antorcha.obj");
+
+	aerostatico = Model();
+	aerostatico.LoadModel("Models/aerostatico.obj");
+
+	arbol = Model();
+	arbol.LoadModel("Models/11.obj");
+
+	aang = Model();
+	aang.LoadModel("Models/estatuaa.obj");
+
+	Pared = Model();
+	Pared.LoadModel("Models/pared.obj");
+
+	Heibai = Model();
+	Heibai.LoadModel("Models/heibai.obj");
+
 
 
 	std::vector<std::string> skyboxFaces;
@@ -538,6 +565,7 @@ int main()
 
 		//MODELOS
 
+		//1
 		model = glm::mat4(1.0);	
 		model = glm::translate(model, glm::vec3(15.5f, -0.5f, 1.5f));	
 		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));	
@@ -546,6 +574,7 @@ int main()
 		T_Tierra.RenderModel();	
 
 		
+		//2
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-13.5f, -0.5f, 9.5f));	
 		model = glm::scale(model, glm::vec3(0.08f, 0.08f, 0.08f));
@@ -553,12 +582,78 @@ int main()
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
 		Fuego.RenderModel();	
 
+
+		//3
 		model = glm::mat4(1.0);	
 		model = glm::translate(model, glm::vec3(-17.5f, -0.5f, 27.5f));	
 		model = glm::scale(model, glm::vec3(0.04f, 0.04f, 0.04f));	
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
 		Momo.RenderModel();	
+
+
+		//4
+		model = glm::mat4(1.0);	
+		model = glm::translate(model, glm::vec3(-29.5f, -0.5f, 25.5f));	
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		tronco.RenderModel();	
+
+
+		//5
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-38.5f, -0.5f, 25.5f));
+		model = glm::scale(model, glm::vec3(14.0f, 14.0f, 14.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		antorcha.RenderModel();
+
+
+		//6
+		model = glm::mat4(1.0);	
+		model = glm::translate(model, glm::vec3(-38.5f, 14.5f, 25.5f));	
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		aerostatico.RenderModel();	
+
+		
+		//7
+		model = glm::mat4(1.0);	
+		model = glm::translate(model, glm::vec3(-38.5f, -0.5f, 29.5f));	
+		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));	
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		arbol.RenderModel();
+
+
+		//8
+		model = glm::mat4(1.0);	
+		model = glm::translate(model, glm::vec3(-45.5f, -0.5f, 29.5f));	
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		aang.RenderModel();	
+
+		
+		//9
+	
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-50.5f, -0.5f, 29.5f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Pared.RenderModel();
+
+		//10
+
+		model = glm::mat4(1.0);	
+		model = glm::translate(model, glm::vec3(-60.5f, -0.5f, 29.5f));	
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		Heibai.RenderModel();	
 
 
 		
