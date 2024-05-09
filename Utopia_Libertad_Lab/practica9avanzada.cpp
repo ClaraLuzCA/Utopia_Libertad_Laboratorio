@@ -497,6 +497,8 @@ int main()
 		glm::vec2 toffset = glm::vec2(0.0f, 0.0f);
 		
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+
+
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(30.0f, 1.0f, 30.0f));
@@ -567,8 +569,9 @@ int main()
 
 		//1
 		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(15.5f, -0.5f, 1.5f));	
-		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));	
+		model = glm::translate(model, glm::vec3(50.0f, -2.0f, 1.5f));	
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
 		T_Tierra.RenderModel();	
@@ -576,7 +579,8 @@ int main()
 		
 		//2
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-13.5f, -0.5f, 9.5f));	
+		model = glm::translate(model, glm::vec3(-13.5f, -2.0f, 9.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.08f, 0.08f, 0.08f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
@@ -585,7 +589,8 @@ int main()
 
 		//3
 		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(-17.5f, -0.5f, 27.5f));	
+		model = glm::translate(model, glm::vec3(-17.5f, -2.0f, 27.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.04f, 0.04f, 0.04f));	
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
@@ -594,8 +599,17 @@ int main()
 
 		//4
 		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(-29.5f, -0.5f, 25.5f));	
+		model = glm::translate(model, glm::vec3(33.5f, -2.0f, 25.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));		
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
+		tronco.RenderModel();	
+
+		model = modelaux;	
+		model = glm::translate(model, glm::vec3(-29.5f, -2.0f, 25.5f));	
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
 		tronco.RenderModel();	
@@ -603,16 +617,26 @@ int main()
 
 		//5
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-38.5f, -0.5f, 25.5f));
-		model = glm::scale(model, glm::vec3(14.0f, 14.0f, 14.0f));
+		model = glm::translate(model, glm::vec3(30.5f, -2.0f, -3.2f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));//Primero acostado , segundo caras , tercero inclinado
+		model = glm::scale(model, glm::vec3(12.0f, 12.0f, 12.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		antorcha.RenderModel();
+
+		model = modelaux;	
+		model = glm::translate(model, glm::vec3(30.5f, -2.0f, 6.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
+		model = glm::scale(model, glm::vec3(12.0f, 12.0f, 12.0f));	
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
 		antorcha.RenderModel();
 
 
 		//6
 		model = glm::mat4(1.0);	
 		model = glm::translate(model, glm::vec3(-38.5f, 14.5f, 25.5f));	
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
@@ -621,7 +645,8 @@ int main()
 		
 		//7
 		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(-38.5f, -0.5f, 29.5f));	
+		model = glm::translate(model, glm::vec3(-38.5f, -2.0f, 29.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));	
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
@@ -630,7 +655,8 @@ int main()
 
 		//8
 		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(-45.5f, -0.5f, 29.5f));	
+		model = glm::translate(model, glm::vec3(-45.5f, -2.0f, 29.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
@@ -638,9 +664,10 @@ int main()
 
 		
 		//9
-	
+
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-50.5f, -0.5f, 29.5f));
+		model = glm::translate(model, glm::vec3(-50.5f, -2.0f, 29.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -649,7 +676,8 @@ int main()
 		//10
 
 		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(-60.5f, -0.5f, 29.5f));	
+		model = glm::translate(model, glm::vec3(-60.5f, -2.0f, 29.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
