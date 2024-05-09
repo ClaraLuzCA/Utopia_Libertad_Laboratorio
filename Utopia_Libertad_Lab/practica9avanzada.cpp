@@ -98,7 +98,7 @@ Model Molino;
 
 Skybox skybox_dia;
 Skybox skybox_noche;
-Skybox skybox;
+
 
 
 Model T_Tierra;
