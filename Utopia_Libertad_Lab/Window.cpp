@@ -19,6 +19,7 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 	LuzHongo = 1.0f;
 	cambioSpot = 1.0f;
 	LuzFaro = 1.0f;
+	cambiacamara = 1.0f;
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -143,6 +144,16 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	{
 		theWindow->LuzFaro = -1.0f * theWindow->LuzFaro;
 	}
+
+	if (key == GLFW_KEY_N && action == GLFW_PRESS)
+	{
+		theWindow->cambiacamara = 1.0;
+	}
+	if (key == GLFW_KEY_M && action == GLFW_PRESS)
+	{
+		theWindow->cambiacamara = -1.0;
+	}
+
 
 
 	if (key >= 0 && key < 1024)
