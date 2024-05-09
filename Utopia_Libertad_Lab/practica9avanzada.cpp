@@ -616,7 +616,7 @@ int main()
 		// Carrito 2
 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(60.5f, -2.0f, 79.5f));
+		model = glm::translate(model, glm::vec3(60.5f, -2.0f, 15.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -679,7 +679,7 @@ int main()
 		//Banca  4
 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-25.0f, 0.0f, -80.0f));
+		model = glm::translate(model, glm::vec3(25.0f, 2.0f, 89.0f));
 		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Picnic.RenderModel();
@@ -819,7 +819,32 @@ int main()
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
 		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
+		Hongo.RenderModel();
+
+		//HONGO ABAJO DE AANG
+
+
+		model = modelaux;	
+		model = glm::translate(model, glm::vec3(25.0f, 2.0f, 63.0f));	
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
 		Hongo.RenderModel();	
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(35.0f, 2.0f, 75.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Hongo.RenderModel();
+
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(35.0f, 2.0f, 89.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Hongo.RenderModel();
 
 
 
@@ -827,7 +852,7 @@ int main()
 		//arbusto 2
 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(60.0f, 0.0f, 70.0f));
+		model = glm::translate(model, glm::vec3(60.0f, 0.0f, 25.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Arbusto.RenderModel();
@@ -975,6 +1000,7 @@ int main()
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
 		arbol.RenderModel();
 
+		//pino cerca del avatar 
 
 		model = modelaux;	
 		model = glm::translate(model, glm::vec3(-2.0f, -2.0f, 77.5f));	
@@ -989,6 +1015,8 @@ int main()
 		model = glm::scale(model, glm::vec3(0.09f, 0.09, 0.09f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		arbol.RenderModel();
+
+
 
 
 
