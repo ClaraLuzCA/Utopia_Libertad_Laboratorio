@@ -59,9 +59,15 @@ float angulovaria = 0.0f;
 
 //movimiento del globo 
 
+float dHeight = 80.0f;
+float dSpeed = 0.1f; // Velocidad de elevación/descenso
+bool goingUp = true;
+
+
 float globoAngle;
 float globoOffset;
-bool vuelta;
+bool  gl = true;
+
 
 Window mainWindow;
 std::vector<Mesh*> meshList;
@@ -574,20 +580,20 @@ int main()
 
 		//movimiento del globo aerostatico 
 
-		if (vuelta) {
-			if (globoAngle < 370.0f) {
-				globoAngle += globoOffset * deltaTime;
+		if (goingUp) {
+			if (dHeight < 8.0f) {
+				dHeight += dSpeed * deltaTime;
 			}
 			else {
-				vuelta = false;
+				goingUp = false;
 			}
 		}
 		else {
-			if (globoAngle > 0.0f) {
-				globoAngle -= globoOffset * deltaTime;
+			if (dHeight > 0.0f) {
+				dHeight -= dSpeed * deltaTime;
 			}
 			else {
-				vuelta = true;
+				goingUp = true;
 			}
 		}
 
@@ -687,7 +693,7 @@ int main()
 		//aerostatico 3
 
 		model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(globoAngle, 30.5f, 37.0f));
+		model = glm::translate(model, glm::vec3(6.0f, dHeight, -5.0f));
 		model = glm::translate(model, glm::vec3(25.5f, 50.5f, 37.5f));
 		model = glm::translate(model, glm::vec3(120.0f, 30.5f, 37.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -841,7 +847,7 @@ int main()
 
 		//momo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(160.0f, 0.0f, -80.0f));
+		model = glm::translate(model, glm::vec3(160.0f, -2.0f, -80.0f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -899,7 +905,7 @@ int main()
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(33.5f, -2.0f, 25.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::scale(model, glm::vec3(7.0f, 7.0f, 7.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		tronco.RenderModel();
