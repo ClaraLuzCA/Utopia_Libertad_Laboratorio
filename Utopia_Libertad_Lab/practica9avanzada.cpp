@@ -444,7 +444,7 @@ int main()
 	granja.LoadModel("Models/granja.obj");
 
 
-
+	/*
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
@@ -482,9 +482,9 @@ int main()
 
 
 	//luz direccional, sólo 1 y siempre debe de existir
-	/*mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
+	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.6f, 0.6f,
-		0.0f, 0.0f, -1.0f);*/
+		0.0f, 0.0f, -1.0f);
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
 	//Declaración de primer luz puntual
@@ -495,28 +495,32 @@ int main()
 	pointLightCount++;
 
 	unsigned int spotLightCount = 0;
-	//linterna
+	//luz nave
 	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
-		0.0f, 2.0f,
-		0.0f, 0.0f, 0.0f,
+		30.0f, 10.0f,
+		-103.0f, -1.5f, 10.0f,
 		0.0f, -1.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		5.0f);
-	spotLightCount++;
-
-	//luz fija
-	spotLights[1] = SpotLight(0.0f, 0.0f, 1.0f,
-		1.0f, 2.0f,
-		5.0f, 10.0f, 0.0f,
-		0.0f, -5.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
+		0.02f, 0.2f, 0.05f,
 		15.0f);
 	spotLightCount++;
 
-	//luz de helicóptero
+	
+	//luz avión
+	spotLights[1] = SpotLight(1.0f, 0.0f, 1.0f,
+		35.0f, 10.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, -1.0f, 0.0f,
+		0.02f, 0.2f, 0.05f,
+		30.0f);
+	spotLightCount++;
 
-	//luz de faro
-
+	spotLights[2] = SpotLight(0.0f, 1.0f, 1.0f,
+		35.0f, 10.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, -1.0f, 0.0f,
+		0.02f, 0.2f, 0.05f,
+		30.0f);
+	spotLightCount++;
 
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
@@ -595,20 +599,14 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		skybox_noche.DrawSkybox(camera.calculateViewMatrix(), projection);
 
-		if (timer_skybox < 500.0f) {
+		if (timer_skybox < 5000.0f) {
 			skybox_dia.DrawSkybox(camera.calculateViewMatrix(), projection);
-			//luz direccional, sólo 1 y siempre debe de existir
-			mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
-				0.5f, 0.3f,
-				0.0f, 0.0f, -1.0f);
+			
 
 		}
 		else {
-			if (timer_skybox < 1000.0f) {
+			if (timer_skybox < 10000.0f) {
 				skybox_noche.DrawSkybox(camera.calculateViewMatrix(), projection);
-				mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
-					0.25f, 0.3f,
-					0.0f, 0.0f, -1.0f);
 			}
 			else {
 				timer_skybox = 0;
@@ -635,8 +633,10 @@ int main()
 		// luz ligada a la cámara de tipo flash
 		glm::vec3 lowerLight = camera.getCameraPosition();
 		lowerLight.y -= 0.3f;
-		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
-
+		//spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
+		spotLights[0].SetPos(glm::vec3(120.0f, 30.5f, 37.5f)); //aerostático
+		spotLights[1].SetPos(glm::vec3(-10.5f, 34.5f,70.0f)); //lampara fuego
+		spotLights[2].SetPos(glm::vec3(-103.0f, 34.5f, 10.0f)); //lampara planetario
 		//información al shader de fuentes de iluminación
 		shaderList[0].SetDirectionalLight(&mainLight);
 		shaderList[0].SetPointLights(pointLights, pointLightCount);
