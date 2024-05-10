@@ -599,13 +599,13 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		skybox_noche.DrawSkybox(camera.calculateViewMatrix(), projection);
 
-		if (timer_skybox < 5000.0f) {
+		if (timer_skybox < 500.0f) {
 			skybox_dia.DrawSkybox(camera.calculateViewMatrix(), projection);
 			
 
 		}
 		else {
-			if (timer_skybox < 10000.0f) {
+			if (timer_skybox < 1000.0f) {
 				skybox_noche.DrawSkybox(camera.calculateViewMatrix(), projection);
 			}
 			else {
