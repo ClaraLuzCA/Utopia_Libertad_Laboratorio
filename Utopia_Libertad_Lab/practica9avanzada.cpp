@@ -68,6 +68,12 @@ float globoAngle;
 float globoOffset;
 bool  gl = true;
 
+//estatua
+float estatuaAngle;
+float estatuaOffset;
+bool vuelta;
+
+
 
 Window mainWindow;
 std::vector<Mesh*> meshList;
@@ -538,6 +544,11 @@ int main()
 	movHeliOffset = 10.0f;
 	avanzaHeli = true;
 
+	//Estatua
+
+	estatuaAngle = 0.0f;
+	estatuaOffset = 0.9f;
+
 	//aerostatico
 
 	globoAngle = 0.0f;
@@ -577,6 +588,27 @@ int main()
 			}
 
 		}
+
+		//estatua
+
+		if (vuelta) {
+			if (estatuaAngle > 0.0f) {
+				estatuaAngle -= estatuaOffset * deltaTime;
+			}
+			else {
+				vuelta = false;
+			}
+		}
+		else {
+			if (estatuaAngle < 370.0f) {
+				estatuaAngle += estatuaOffset * deltaTime;
+			}
+			else {
+				vuelta = true;
+			}
+		}
+
+
 
 		//movimiento del globo aerostatico 
 
@@ -857,7 +889,8 @@ int main()
 		//aang
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(19.0f, -2.0f, 78.0f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, estatuaAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
