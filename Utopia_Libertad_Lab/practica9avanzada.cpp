@@ -43,6 +43,9 @@ const float toRadians = 3.14159265f / 180.0f;
 
 //variables para animación
 
+//skybox
+float timer_skybox = 0.0f;
+
 //Totoro
 float rotTotoro;
 float movOffsetTotoro;
@@ -434,7 +437,7 @@ int main()
 
 	Casa = Model();
 	Casa.LoadModel("Models/Casa_Totoro.obj");
-	
+	/*
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
@@ -443,9 +446,9 @@ int main()
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_bk.tga");
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_ft.tga");
 
-	skybox = Skybox(skyboxFaces);
+	skybox = Skybox(skyboxFaces);*/
 
-	/*std::vector<std::string> skyboxFaces;
+	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox_Dia/dia_1.jpg");
 	skyboxFaces.push_back("Textures/Skybox_Dia/dia_3.jpg");
 	skyboxFaces.push_back("Textures/Skybox_Dia/dia_down.jpg");
@@ -453,16 +456,16 @@ int main()
 	skyboxFaces.push_back("Textures/Skybox_Dia/dia_4.jpg");
 	skyboxFaces.push_back("Textures/Skybox_Dia/dia_2.jpg");
 
-	skybox_dia = Skybox(skyboxFaces);*/
+	skybox_dia = Skybox(skyboxFaces);
 
 	std::vector<std::string> skyboxFaces2;
 
 	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_1.jpg");
-	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_3.png");
-	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_down.png");
-	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_up.png");
-	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_4.png");
-	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_2.png");
+	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_3.jpg");
+	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_down.jpg");
+	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_up.jpg");
+	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_4.jpg");
+	skyboxFaces2.push_back("Textures/Skybox_Noche/noche_2.jpg");
 
 	skybox_noche = Skybox(skyboxFaces2);
 
@@ -472,9 +475,9 @@ int main()
 
 
 	//luz direccional, sólo 1 y siempre debe de existir
-	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
+	/*mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.6f, 0.6f,
-		0.0f, 0.0f, -1.0f);
+		0.0f, 0.0f, -1.0f);*/
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
 	//Declaración de primer luz puntual
@@ -545,6 +548,8 @@ int main()
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
 
+		timer_skybox += deltaTime;
+
 		angulovaria += 0.5f*deltaTime;
 
 		if (movCoche > -300.0f)
@@ -581,7 +586,28 @@ int main()
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
+		skybox_noche.DrawSkybox(camera.calculateViewMatrix(), projection);
+
+		if (timer_skybox < 500.0f) {
+			skybox_dia.DrawSkybox(camera.calculateViewMatrix(), projection);
+			//luz direccional, sólo 1 y siempre debe de existir
+			mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
+				0.5f, 0.3f,
+				0.0f, 0.0f, -1.0f);
+
+		}
+		else {
+			if (timer_skybox < 1000.0f) {
+				skybox_noche.DrawSkybox(camera.calculateViewMatrix(), projection);
+				mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
+					0.25f, 0.3f,
+					0.0f, 0.0f, -1.0f);
+			}
+			else {
+				timer_skybox = 0;
+			}
+
+		}
 
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
