@@ -20,6 +20,11 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 	cambioSpot = 1.0f;
 	LuzFaro = 1.0f;
 	cambiacamara = 1.0f;
+
+	movPBTotoro = false;
+	movTotoro = 0.0f;
+	rotTotoro = 0.0f;
+
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -152,6 +157,28 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	if (key == GLFW_KEY_M && action == GLFW_PRESS)
 	{
 		theWindow->cambiacamara = -1.0;
+	}
+
+	if (key == GLFW_KEY_Z) {
+		theWindow->movTotoro += 1.0;
+		theWindow->movPBTotoro = true;
+	}
+	else {
+		//theWindow->movPBTotoro = false;
+	}
+	if (key == GLFW_KEY_X) {
+		theWindow->movTotoro -= 1.0;
+		theWindow->movPBTotoro = true;
+	}
+	else {
+		//theWindow->movPBTotoro = false;
+	}
+
+	if (key == GLFW_KEY_C) {
+		theWindow->rotTotoro += 2.0;
+	}
+	if (key == GLFW_KEY_V) {
+		theWindow->rotTotoro -= 2.0;
 	}
 
 

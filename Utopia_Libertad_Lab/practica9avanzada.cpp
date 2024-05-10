@@ -42,6 +42,26 @@ Textura Animada
 const float toRadians = 3.14159265f / 180.0f;
 
 //variables para animación
+
+//Totoro
+float rotTotoro;
+float movOffsetTotoro;
+float movBrazos;
+float movBrazos2;
+float movOffsetBrazos;
+float movPies;
+float movOffsetPies;
+bool BanderaPIzq;
+bool BanderaPDer;
+float movPizq;
+float movOffsetPIzq;
+float movPDer;
+float movOffsetPDer;
+
+bool BanderaBrazos;
+bool BanderaBrazos2;
+bool BanderaPatas;
+
 float movCoche;
 float movOffset;
 float movHeli;
@@ -96,6 +116,11 @@ Model Mariposa;
 Model Picnic;
 Model Molino;
 
+Model Cuerpo_Totoro;
+Model Brazo_Derecho_Totoro;
+Model Brazo_Izquierda_Totoro;
+Model Pata_Derecho_Totoro;
+Model Pata_Izquierda_Totoro;
 
 Skybox skybox_dia;
 Skybox skybox_noche;
@@ -335,6 +360,19 @@ int main()
 
 	//MODELOS
 
+	//Totoro
+	Cuerpo_Totoro = Model();
+	Cuerpo_Totoro.LoadModel("Models/Cuerpo_Totoro.obj");
+	Brazo_Derecho_Totoro = Model();
+	Brazo_Derecho_Totoro.LoadModel("Models/Brazo_Derecho_Totoro.obj");
+	Brazo_Izquierda_Totoro = Model();
+	Brazo_Izquierda_Totoro.LoadModel("Models/Brazo_Izquierdo_Totoro.obj");
+	Pata_Derecho_Totoro = Model();
+	Pata_Derecho_Totoro.LoadModel("Models/Pata_Derecha_Totoro.obj");
+	Pata_Izquierda_Totoro = Model();
+	Pata_Izquierda_Totoro.LoadModel("Models/Pata_Izquierda_Totoro.obj");
+
+
 	Avion = Model();
 	Avion.LoadModel("Models/Avion.obj");
 	Aspa = Model();
@@ -484,6 +522,20 @@ int main()
 	movHeli = 0.0f;
 	movHeliOffset = 10.0f;
 	avanzaHeli = true;
+
+
+	movBrazos = 0.0f;
+	movBrazos2 = 50.0f;
+	rotTotoro = 0.0f;
+	movPies = 0.0f;
+	BanderaBrazos = true;
+	BanderaBrazos2 = true;
+	BanderaPatas = true;
+	movOffsetBrazos = 0.3f;
+	movOffsetPDer = 0.3f;
+	movOffsetPIzq = 0.3f;
+	BanderaPDer = true;
+	BanderaPIzq = true;
 	
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -563,6 +615,7 @@ int main()
 
 		glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);
+		glm::mat4 modelauxTotoro(1.0);
 		glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
 		glm::vec2 toffset = glm::vec2(0.0f, 0.0f);
 		
@@ -587,6 +640,97 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		pisoTexture.UseTexture();
 		meshList[2]->RenderMesh();
+
+		//TOTORO*************************************************************************
+
+		//animación brazos y patas
+		if (BanderaBrazos) {
+			if (movBrazos > -50.0) {
+				movBrazos -= 3.0 * movOffsetBrazos * deltaTime;
+				printf("avanza brazo %f \n ", movBrazos);
+
+			}
+			else {
+				BanderaBrazos = !BanderaBrazos;
+			}
+
+		}
+		else {
+			if (movBrazos < 0.0) {
+				movBrazos += 3.0 * movOffsetBrazos * deltaTime;
+			}
+			else {
+				BanderaBrazos = !BanderaBrazos;
+			}
+		}
+
+		if (BanderaBrazos2) {
+			if (movBrazos2 > -50.0) {
+				movBrazos2 -= 3.0 * movOffsetBrazos * deltaTime;
+			}
+			else {
+				BanderaBrazos2 = !BanderaBrazos2;
+			}
+
+
+		}
+		else {
+			if (movBrazos2 < 0.0) {
+				movBrazos2 += 3.0 * movOffsetBrazos * deltaTime;
+				printf("avanza brazo %f \n ", movBrazos);
+
+			}
+			else {
+				BanderaBrazos2 = !BanderaBrazos2;
+			}
+		}
+
+
+
+		//TOTORO
+		//Cuerpo
+		model = glm::mat4(1.0);
+
+		model = glm::rotate(model, mainWindow.getrotaTototo() * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, mainWindow.getmueveTototo() + 0.0f));
+
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		modelauxTotoro = model;
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Cuerpo_Totoro.RenderModel();
+
+		//Pata Izquierda
+		model = modelauxTotoro;
+		model = glm::translate(model, glm::vec3(5.0, 0.0f, 0.5f));
+		model = glm::rotate(model, movBrazos * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Pata_Izquierda_Totoro.RenderModel();
+
+		//Pata Derecha
+		model = modelauxTotoro;
+		model = glm::translate(model, glm::vec3(-7.0, 0.0f, 0.5f));
+		model = glm::rotate(model, movBrazos2 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Pata_Derecho_Totoro.RenderModel();
+
+		//Brazo derecho
+		model = modelauxTotoro;
+		model = glm::translate(model, glm::vec3(-14.5, 40.0f, 0.5f));
+		model = glm::rotate(model, movBrazos * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Brazo_Derecho_Totoro.RenderModel();
+
+		//Brazo Izquierdi
+		model = modelauxTotoro;
+		model = glm::translate(model, glm::vec3(11.0, 40.0f, 0.5f));
+		model = glm::rotate(model, movBrazos2 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Brazo_Izquierda_Totoro.RenderModel();
+
 
 		//Vehículos **********************************************************
 		
