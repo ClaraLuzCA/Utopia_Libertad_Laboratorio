@@ -166,6 +166,7 @@ PointLight pointLights[MAX_POINT_LIGHTS];
 PointLight pointLights2[MAX_POINT_LIGHTS];
 PointLight pointLights3[MAX_POINT_LIGHTS];
 
+
 SpotLight spotLights[MAX_SPOT_LIGHTS];
 
 // Vertex Shader
@@ -482,6 +483,7 @@ int main()
 	unsigned int pointLightCount2 = 0;
 	unsigned int pointLightCount3 = 0;
 
+
 	//Declaración de primer luz puntual
 	pointLights[0] = PointLight(1.0f, 0.0f, 0.0f,
 		0.0f, 160.0f,
@@ -502,6 +504,12 @@ int main()
 		-10.0f, -1.5f, 68.5f,
 		0.3f, 0.2f, 0.1f);
 	pointLightCount++;
+
+
+
+
+
+
 
 
 	unsigned int spotLightCount = 0;
