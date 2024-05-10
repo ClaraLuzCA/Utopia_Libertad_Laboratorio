@@ -142,9 +142,6 @@ Model Pared;
 
 
 //flora
-
-Model T_Tierra;
-Model Fuego;
 Model Momo;
 Model antorha;
 
@@ -155,7 +152,7 @@ Model Hongo;
 
 
 //fauna
-Model Momo;
+
 Model Heibai;
 Model aang;
 Model Bolita;
