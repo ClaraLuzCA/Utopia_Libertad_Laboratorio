@@ -21,6 +21,9 @@ public:
 	GLfloat getLuzHongo() { return LuzHongo; }
 	GLfloat getcambiacamara() { return cambiacamara; }
 
+	GLfloat getLUZK() { return LUZK; }
+	GLint getlight() { return K; }
+
 	GLfloat getmueveTototo() { return movTotoro; }
 	GLfloat getrotaTototo() { return rotTotoro; }
 	bool getmovPBTotoro() { return movPBTotoro; }
@@ -50,6 +53,10 @@ private:
 	GLfloat LuzFaro;
 	GLfloat cambiacamara;
 
+	GLint K = 0;
+	GLfloat LUZK = 0.0f;
+
+
 	GLfloat movTotoro;
 	GLfloat rotTotoro;
 	GLfloat movB1;
@@ -57,6 +64,7 @@ private:
 	GLfloat movP1;
 	GLfloat movP2;
 	bool movPBTotoro;
+
 
 	bool mouseFirstMoved;
 	static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);
