@@ -80,6 +80,7 @@ float toffsetnumerov = 0.0f;
 float toffsetnumerocambiau = 0.0;
 float angulovaria = 0.0f;
 
+
 //movimiento del globo 
 
 float dHeight = 80.0f;
@@ -95,6 +96,10 @@ bool  gl = true;
 float estatuaAngle;
 float estatuaOffset;
 bool vuelta;
+
+//para la elise
+float angularSpeed = 30.0f;
+float angle = 0.0f;
 
 
 
@@ -138,7 +143,7 @@ Skybox skybox_noche;
 
 
 Model aerostatico;
-Model Pared;
+Model elise;
 
 
 //flora
@@ -149,6 +154,8 @@ Model tronco;
 Model arbol;
 Model Arbusto;
 Model Hongo;
+Model arb3;
+Model arbol4;
 
 
 //fauna
@@ -165,6 +172,11 @@ Model Corral;
 Model Planeta;
 Model Bancas;
 Model antorcha;
+Model Nafuego;
+Model Naaire;
+Model Natierra;
+Model Naagua;
+
 
 //edificios
 
@@ -438,7 +450,10 @@ int main()
 	antorcha.LoadModel("Models/antorcha.obj");
 	
 	aerostatico = Model();
-	aerostatico.LoadModel("Models/aerostatico.obj");
+	aerostatico.LoadModel("Models/aerostatico_sin_elise.obj");
+
+	elise = Model();
+	elise.LoadModel("Models/elise.obj");
 
 	arbol = Model();
 	arbol.LoadModel("Models/11.obj");
@@ -481,6 +496,27 @@ int main()
 
 	granja = Model();
 	granja.LoadModel("Models/granja.obj");
+
+	arb3 = Model();
+	arb3.LoadModel("Models/arbol3.obj");
+
+	arbol4 = Model();
+	arbol4.LoadModel("Models/arb4.obj");
+
+	Nafuego = Model();
+	Nafuego.LoadModel("Models/Nfuego.obj");
+
+	Naaire = Model();
+	Naaire.LoadModel("Models/Naire.obj");
+
+	Natierra = Model();
+	Natierra.LoadModel("Models/Ntierra.obj");
+
+	Naagua = Model();
+	Naagua.LoadModel("Models/Nagua.obj");
+
+
+
 
 
 
@@ -612,7 +648,7 @@ int main()
 	//aerostatico
 
 	globoAngle = 0.0f;
-	globoOffset = 10.0f;
+	globoOffset = 50.0f;
 
 
 	movBrazos = 0.0f;
@@ -690,7 +726,7 @@ int main()
 		//movimiento del globo aerostatico 
 
 		if (goingUp) {
-			if (dHeight < 8.0f) {
+			if (dHeight < 80.0f) {
 				dHeight += dSpeed * deltaTime;
 			}
 			else {
@@ -706,6 +742,24 @@ int main()
 			}
 		}
 
+		//movimiento de la elise 
+
+		if (vuelta) {
+			if (estatuaAngle > 0.0f) {
+				estatuaAngle -= estatuaOffset * deltaTime;
+			}
+			else {
+				vuelta = false;
+			}
+		}
+		else {
+			if (estatuaAngle < 370.0f) {
+				estatuaAngle += estatuaOffset * deltaTime;
+			}
+			else {
+				vuelta = true;
+			}
+		}
 
 		//Recibir eventos del usuario
 		glfwPollEvents();
@@ -913,14 +967,23 @@ int main()
 
 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(6.0f, dHeight, -5.0f));
-		model = glm::translate(model, glm::vec3(25.5f, 50.5f, 37.5f));
-		model = glm::translate(model, glm::vec3(120.0f, 30.5f, 37.5f));
+		//model = glm::translate(model, glm::vec3(6.0f, dHeight, -5.0f));
+		//model = glm::translate(model, glm::vec3(25.5f, 50.5f, 37.5f));
+		model = glm::translate(model, glm::vec3(120.0f, dHeight, 75.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		//model = glm::rotate(model, globoAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		aerostatico.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(120.0f, dHeight, 75.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, estatuaAngle * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		//model = glm::rotate(model, globoAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		elise.RenderModel();
 
 
 
@@ -1006,28 +1069,21 @@ int main()
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(30.5f, -2.0f, -105.5f));
-
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));//Primero acostado , segundo caras , tercero inclinado	
 		model = glm::scale(model, glm::vec3(12.0f, 12.0f, 12.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		antorcha.RenderModel();
 
 
 		model = modelaux;
-
 		model = glm::translate(model, glm::vec3(36.0f, -2.0f, -105.5f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(36.0f, -2.0f, -100.0f));	
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));	
-
 		model = glm::scale(model, glm::vec3(12.0f, 12.0f, 12.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		antorcha.RenderModel();
 
 		model = modelaux;
-
 		model = glm::translate(model, glm::vec3(15.0f, -2.0f, -105.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(12.0f, 12.0f, 12.0f));
@@ -1036,7 +1092,6 @@ int main()
 		antorcha.RenderModel();
 
 		model = modelaux;
-
 		model = glm::translate(model, glm::vec3(8.0f, -2.0f, -105.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(12.0f, 12.0f, 12.0f));
@@ -1044,6 +1099,41 @@ int main()
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		antorcha.RenderModel();
 
+		//bandera de la nacion del fuego 
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(47.0f, -2.0f, 78.0f));	
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Nafuego.RenderModel();
+
+		//bandera de la nacion del aire 
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(57.0f, -2.0f, 78.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Naaire.RenderModel();
+
+		//bandera de la nacion de tierra
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(67.0f, -2.0f, 78.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Natierra.RenderModel();
+
+		//bandera de la nacion del agua
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(77.0f, -2.0f, 78.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Naagua.RenderModel();
 
 
 
@@ -1080,7 +1170,7 @@ int main()
 
 		//momo
 		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(160.0f, 0.0f, -80.0f));
+		model = glm::translate(model, glm::vec3(160.0f, -2.0f, -80.0f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
 		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));	
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
@@ -1127,14 +1217,6 @@ int main()
 		Hongo.RenderModel();	
 
 
-		//arbusto 2
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(60.0f, 0.0f, 40.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Arbusto.RenderModel();
-
 		//tronco 3
 
 		model = glm::mat4(1.0);
@@ -1162,7 +1244,6 @@ int main()
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
 		model = glm::scale(model, glm::vec3(0.09f, 0.09f, 0.09f));	
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));	
 
 		arbol.RenderModel();
 
@@ -1173,6 +1254,9 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		arbol.RenderModel();
+
+		//arbol 2
+
 
 		//cerca de la lampara donde esta momo y el templo del fuego
 
@@ -1248,7 +1332,6 @@ int main()
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		arbol.RenderModel();
 
 		//pino cerca del avatar 
@@ -1256,17 +1339,33 @@ int main()
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(-2.0f, -2.0f, 77.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.09f, 0.09, 0.09f));
+		model = glm::scale(model, glm::vec3(0.09f, 0.09f, 0.09f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		arbol.RenderModel();
 
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(-8.0f, -2.0f, 76.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.09f, 0.09, 0.09f));
+		model = glm::scale(model, glm::vec3(0.09f, 0.09f, 0.09f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		arbol.RenderModel();
 
+		//arbol3
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(100.0f, 0.0f, 60.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		arb3.RenderModel();
+
+
+		//arbol4
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(40.0f, -2.0f, 79.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		arbol4.RenderModel();
 
 		//Edificio *************************************************************	
 
