@@ -28,7 +28,7 @@ Textura Animada
 #include "Mesh.h"
 #include "Shader_light.h"
 #include "Camera.h"
-#include "Texture.h"
+#include "Texture.h"S
 #include "Sphere.h"
 #include"Model.h"
 #include "Skybox.h"
@@ -203,6 +203,7 @@ static double limitFPS = 1.0 / 60.0;
 // luz direccional
 DirectionalLight mainLight;
 //para declarar varias luces de tipo pointlight
+
 PointLight pointLights[MAX_POINT_LIGHTS];
 PointLight pointLights2[MAX_POINT_LIGHTS];
 PointLight pointLights3[MAX_POINT_LIGHTS];
@@ -568,23 +569,27 @@ int main()
 	unsigned int pointLightCount3 = 0;
 
 
+
+
+	
 	//Declaración de primer luz puntual
 	pointLights[0] = PointLight(1.0f, 0.0f, 0.0f,
-		0.0f, 160.0f,
+		1.0f, 130.0f,
 		-10.0f, -1.5f, -99.5f,
 		0.3f, 0.2f, 0.1f);
 	pointLightCount++;
 
-	//Declaración de primer luz puntual
+	
+	// luz puntual
 	pointLights[1] = PointLight(1.0f, 0.0f, 0.0f,
-		0.0f, 160.0f,
+		1.0f, 130.0f,
 		45.0f, -1.5f, -99.5f,
 		0.3f, 0.2f, 0.1f);
 	pointLightCount++;
 
 	//templo fuego 
 	pointLights[2] = PointLight(1.0f, 0.0f, 0.0f,
-		0.0f, 160.0f,
+		1.0f, 130.0f,
 		-10.0f, -1.5f, 68.5f,
 		0.3f, 0.2f, 0.1f);
 	pointLightCount++;
@@ -992,6 +997,7 @@ int main()
 		//Lampara 1
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-103.0f, -1.5f, 10.0f));
+		pointLights[1];
 		model = glm::scale(model, glm::vec3(1.4f, 1.4f, 1.4f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
@@ -1007,14 +1013,12 @@ int main()
 
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(-10.0f, -1.6f, 70.0f));
-		pointLights[0];
 		model = glm::scale(model, glm::vec3(1.4f, 1.4f, 1.4f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
 
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(45.0f, -1.6f, -100.0f));
-		pointLights[1];
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
@@ -1196,14 +1200,14 @@ int main()
 		//hongo cerca de momo
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(95.0f, 0.0f, 60.0f));
-		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Hongo.RenderModel();
 
 		//hongo cerca de momo
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(80.0f, 0.0f, 125.0f));
-		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Hongo.RenderModel();
 
@@ -1212,7 +1216,7 @@ int main()
 		
 		model = modelaux;	
 		model = glm::translate(model, glm::vec3(60.0f, 0.0f, 100.0f));
-		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));	
+		model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
 		Hongo.RenderModel();	
 

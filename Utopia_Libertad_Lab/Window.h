@@ -20,9 +20,10 @@ public:
 	GLfloat getcambioSpot() { return cambioSpot; }
 	GLfloat getLuzHongo() { return LuzHongo; }
 	GLfloat getcambiacamara() { return cambiacamara; }
+	GLfloat getanguloL() { return anguloL; }
+	GLint getlight() { return L; }
 
-	GLfloat getLUZK() { return LUZK; }
-	GLint getlight() { return K; }
+
 
 	GLfloat getmueveTototo() { return movTotoro; }
 	GLfloat getrotaTototo() { return rotTotoro; }
@@ -52,9 +53,9 @@ private:
 	GLfloat cambioSpot;
 	GLfloat LuzFaro;
 	GLfloat cambiacamara;
+	GLint L = 0;
+	GLfloat anguloL = 0.0f;
 
-	GLint K = 0;
-	GLfloat LUZK = 0.0f;
 
 
 	GLfloat movTotoro;
