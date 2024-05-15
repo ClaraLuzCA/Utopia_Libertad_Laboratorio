@@ -1,44 +1,32 @@
-# 3ds Max Wavefront OBJ Exporter v0.99 - (c)2007 guruware
-# File Created: 08.05.2024 20:50:40
-
-newmtl Material__35
-	Ns 10.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 0.5880 0.5880 0.5880
-	Kd 0.5880 0.5880 0.5880
-	Ks 0.0000 0.0000 0.0000
-	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\Users\clara\OneDrive\Escritorio\Proyecto Lab CGIH\Utopia_Libertad_Lab\Utopia_Libertad_Lab\Textures\LBT_Body_BaseColor.png
-	map_Kd C:\Users\clara\OneDrive\Escritorio\Proyecto Lab CGIH\Utopia_Libertad_Lab\Utopia_Libertad_Lab\Textures\LBT_Body_BaseColor.png
+# Blender 4.0.2 MTL File: 'None'
+# www.blender.org
 
 newmtl Material__33
-	Ns 10.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 0.5880 0.5880 0.5880
-	Kd 0.5880 0.5880 0.5880
-	Ks 0.0000 0.0000 0.0000
-	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\Users\clara\OneDrive\Escritorio\Proyecto Lab CGIH\Utopia_Libertad_Lab\Utopia_Libertad_Lab\Textures\LBT_PinkOrigami_BaseColor.png
-	map_Kd C:\Users\clara\OneDrive\Escritorio\Proyecto Lab CGIH\Utopia_Libertad_Lab\Utopia_Libertad_Lab\Textures\LBT_PinkOrigami_BaseColor.png
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd LBT_PinkOrigami_BaseColor.png
 
 newmtl Material__34
-	Ns 10.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 0.5880 0.5880 0.5880
-	Kd 0.5880 0.5880 0.5880
-	Ks 0.0000 0.0000 0.0000
-	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\Users\clara\OneDrive\Escritorio\Proyecto Lab CGIH\Utopia_Libertad_Lab\Utopia_Libertad_Lab\Textures\LBT_Spikes_BaseColor.png
-	map_Kd C:\Users\clara\OneDrive\Escritorio\Proyecto Lab CGIH\Utopia_Libertad_Lab\Utopia_Libertad_Lab\Textures\LBT_Spikes_BaseColor.png
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd LBT_Spikes_BaseColor.png
+
+newmtl Material__35
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd LBT_Body_BaseColor.png
