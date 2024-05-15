@@ -89,13 +89,31 @@ float toffsetnumerov = 0.0f;
 float toffsetnumerocambiau = 0.0;
 float angulovaria = 0.0f;
 
+
+//animacion de heli
+float heliAngle;
+float heliOffset;
+bool vuelta3;
+
 //movimiento del globo 
 
 float dHeight = 80.0f;
 float dSpeed = 0.1f; // Velocidad de elevación/descenso
 bool goingUp = true;
 
+//Animacion Letras
+float rot;
+float rotOffset;
+bool gira;
 
+//planeta
+float estatuaAngle1;
+float estatuaOffset1;
+bool vuelta1;
+
+
+
+//animacion
 float globoAngle;
 float globoOffset;
 bool  gl = true;
@@ -110,11 +128,34 @@ bool vuelta;
 float angularSpeed = 30.0f;
 float angle = 0.0f;
 
-
+//animacion de calcifer
 bool BanderaCalcifer;
 float creceCalcifer;
 float creceOffset;
 float rotCalcifer;
+
+//animacion
+bool Car;
+float movCar;
+float movOffsetCar;
+float rotCar;
+
+//animacion 
+float movizqOffset;
+float movizq;
+bool contador;
+bool pizquierda;
+
+//animacion
+float angulo_h;
+float angulo_h_offset;
+float mueve_h;
+float mueve_h_offset;
+bool avanza_h;
+float mueve_h_X;
+float gira_h;
+bool vuelve_h_Z;
+
 
 
 
@@ -122,8 +163,14 @@ Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
+//CAMARAS
 Camera camera;
 
+glm::mat4 camRot(1.0);
+glm::vec3 camPos(0.0f);
+
+
+//textura
 Texture brickTexture;
 Texture dirtTexture;
 Texture plainTexture;
@@ -157,31 +204,41 @@ Skybox skybox_dia;
 Skybox skybox_noche;
 
 
-Model aerostatico;
 
+
+
+//aerostatico
+Model aerostatico;
 Model elise;
 
-Model Pared;
+//modelo helicoptero
+Model heli;
+Model eliHeli;
+Model eliHelia;
+
+
 
 //flora
 Model Momo;
 Model antorha;
+Model Pt;
+
 
 Model tronco;
 Model arbol;
 Model Arbusto;
 Model Hongo;
-
 Model arb3;
 Model arbol4;
 
 
 
 //fauna
-
 Model Heibai;
 Model aang;
 Model Bolita;
+Model p1;
+Model p2;
 
 
 
@@ -191,7 +248,6 @@ Model Corral;
 Model Planeta;
 Model Bancas;
 Model antorcha;
-
 Model Nafuego;
 Model Naaire;
 Model Natierra;
@@ -208,7 +264,7 @@ Model granja;
 Model Domo;
 Model Molino;
 
-
+//calcifer y roca
 Model Calcifer;
 Model SinCara;
 Model Roca;
@@ -232,17 +288,12 @@ DirectionalLight mainLight;
 
 PointLight pointLights[MAX_POINT_LIGHTS];
 PointLight pointLights2[MAX_POINT_LIGHTS];
-PointLight pointLights3[MAX_POINT_LIGHTS];
-
-
 SpotLight spotLights[MAX_SPOT_LIGHTS];
 
 // Vertex Shader
 static const char* vShader = "shaders/shader_light.vert";
-
 // Fragment Shader
 static const char* fShader = "shaders/shader_light.frag";
-
 
 
 //cálculo del promedio de las normales para sombreado de Phong
@@ -395,6 +446,7 @@ void CreateObjects()
 }
 
 
+
 void CreateShaders()
 {
 	Shader* shader1 = new Shader();
@@ -522,6 +574,13 @@ int main()
 	Bolita = Model();
 	Bolita.LoadModel("Models/Bola.obj");
 
+	p1 = Model();
+	p1.LoadModel("Models/P1.obj");
+
+	p2 = Model();
+	p2.LoadModel("Models/P2.obj");
+
+
 	Arbusto = Model();
 	Arbusto.LoadModel("Models/arbusto.obj");
 
@@ -537,7 +596,7 @@ int main()
 	granja = Model();
 	granja.LoadModel("Models/granja.obj");
 
-
+	//modelos new
 	arb3 = Model();
 	arb3.LoadModel("Models/arbol3.obj");
 
@@ -555,6 +614,21 @@ int main()
 
 	Naagua = Model();
 	Naagua.LoadModel("Models/Nagua.obj");
+
+
+	Pt = Model();
+	Pt.LoadModel("Models/PT2.obj");
+
+	heli = Model();
+	heli.LoadModel("Models/Heli.obj");
+
+	eliHeli = Model();
+	eliHeli.LoadModel("Models/eliseHeli.obj");
+
+	eliHelia = Model();
+	eliHelia.LoadModel("Models/eliseHelia.obj");
+
+
 
 
 	/*
@@ -613,7 +687,6 @@ int main()
 
 
 
-
 	
 	//Declaración de primer luz puntual
 	pointLights[0] = PointLight(1.0f, 0.0f, 0.0f,
@@ -622,24 +695,27 @@ int main()
 		0.3f, 0.2f, 0.1f);
 	pointLightCount++;
 
+	pointLights2[0] = PointLight(0.0f, 0.0f, 0.0f,
+		1.0f, 130.0f,
+		-10.0f, -1.5f, -99.5f,
+		0.3f, 0.2f, 0.1f);
+	pointLightCount2++;
+
 
 	
 	// luz puntual
-	pointLights[1] = PointLight(1.0f, 0.0f, 0.0f,
+	pointLights[1] = PointLight(1.0f, 1.0f, 1.0f,
 		1.0f, 130.0f,
-
-		45.0f, -1.5f, -99.5f,
+		-107.0f, -12.0f, -25.5f,
 		0.3f, 0.2f, 0.1f);
 	pointLightCount++;
 
 	//templo fuego 
 	pointLights[2] = PointLight(1.0f, 0.0f, 0.0f,
 		1.0f, 130.0f,
-
-		-10.0f, -1.5f, 68.5f,
+		120.0f, -3.5f, 70.5f,
 		0.3f, 0.2f, 0.1f);
 	pointLightCount++;
-
 
 
 
@@ -677,9 +753,13 @@ int main()
 
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
-		uniformSpecularIntensity = 0, uniformShininess = 0, uniformTextureOffset = 0;
+	uniformSpecularIntensity = 0, uniformShininess = 0, uniformTextureOffset = 0;
 	GLuint uniformColor = 0;
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
+
+
+	// animaciones 
+
 
 	movCoche = 0.0f;
 	movOffset = 0.3f;//velocidad del carro
@@ -690,7 +770,18 @@ int main()
 	movHeliOffset = 10.0f;
 	avanzaHeli = true;
 
+	//animaciones de vuelta 
+	rot = 0.0f;
+	rotOffset = 0.5;
+	gira = true;
 
+
+
+	//planeta 
+	estatuaAngle1 = 0.0f;
+	estatuaOffset1 = 0.0f;
+
+	
 	//Estatua
 
 	estatuaAngle = 0.0f;
@@ -699,8 +790,18 @@ int main()
 	//aerostatico
 
 	globoAngle = 0.0f;
-
 	globoOffset = 50.0f;
+
+	//animacion 
+	heliAngle = 0.0f;
+	heliOffset = 1.0f;
+
+	//
+	movizq = 0.0f;
+	movizqOffset = 0.06;
+
+
+
 
 
 
@@ -727,6 +828,22 @@ int main()
 	creceOffset = 0.3f;
 	rotCalcifer = 0.0f;
 
+
+	//animacion
+	angulo_h = 0.0f;
+	angulo_h_offset = 5.0f;
+	mueve_h = 0.0f;
+	mueve_h_offset = 0.8f;
+	avanza_h = true;
+	gira_h = 0.0f;
+	mueve_h_X = 0.0f;
+	vuelve_h_Z = true;
+
+
+
+
+
+
 	
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -740,14 +857,81 @@ int main()
 
 		angulovaria += 0.5f*deltaTime;
 
+		
 
-		if (movCoche > -300.0f)
+		//animacion
+		if (mueve_h < 250 && avanza_h == true && vuelve_h_Z == true) {
+
+			mueve_h += mueve_h_offset * deltaTime;
+			angulo_h += angulo_h_offset * deltaTime;
+		}
+		else
 		{
-			movCoche -= movOffset * deltaTime;
+			avanza_h = false;
+			if (mueve_h_X > -200 && avanza_h == false && vuelve_h_Z == true) {
+				gira_h = -90;
+				mueve_h_X -= mueve_h_offset * deltaTime;
+				angulo_h += angulo_h_offset * deltaTime;
+			}
+			else
+			{
+				vuelve_h_Z = false;
+				if (mueve_h > 10 && avanza_h == false && vuelve_h_Z == false) {
+					gira_h = 180;
+					mueve_h -= mueve_h_offset * deltaTime;
+					angulo_h += angulo_h_offset * deltaTime;
+				}
+				else
+				{
+					if (mueve_h_X < 0 && avanza_h == false && vuelve_h_Z == false) {
+						gira_h = -160;
+						mueve_h_X += mueve_h_offset * deltaTime;
+						angulo_h += angulo_h_offset * deltaTime;
+					}
+					else
+					{
+						avanza_h = true;
+						vuelve_h_Z = true;
+						gira_h = 0.0;
+					}
 
-			rotllanta += rotllantaOffset * deltaTime;
+				}
+
+			}
 		}
 
+
+		//puerta izquierda 
+
+		if (pizquierda)
+		{
+			//abre
+			if (movizq > -3.0f)
+			{
+				movizq -= movizqOffset * deltaTime;
+			}
+			else if (contador % 4 == 0)
+			{
+				pizquierda = false;
+			}
+		}
+		else
+		{
+			//cierre
+			if (movizq < 2.0f)
+			{
+				movizq += movizqOffset * deltaTime;
+			}
+			else if (contador % 4 == 0)
+			{
+				pizquierda = true;
+			}
+		}
+
+
+
+
+		/*
 		if (avanzaHeli) {
 			if (movHeli > -100) {
 				movHeli -= 0.05 * movHeliOffset * deltaTime;
@@ -765,6 +949,54 @@ int main()
 			}
 
 		}
+		*/
+
+		//animacion heli
+		if (vuelta3) {
+			if (heliAngle < 360.0f) {  // Cambiado a 360.0f para avanzar hasta una vuelta completa
+				heliAngle += heliOffset * deltaTime;
+			}
+			else {
+				heliAngle = 0.0f;  // Reiniciado a 0.0f para iniciar una nueva vuelta
+			}
+		}
+		else {
+			if (heliAngle > 0.0f) {
+				heliAngle -= heliOffset * deltaTime;
+			}
+			else {
+				heliAngle = 360.0f;  // Reiniciado a 360.0f para iniciar una nueva vuelta
+			}
+		}
+
+
+
+
+		//animacion del planeta
+		rot += rotOffset * deltaTime;
+
+
+
+		//animacion de vuelta del planeta
+		if (vuelta1) {
+			if (estatuaAngle1 > 0.0f) {
+				estatuaAngle1 -= estatuaOffset * deltaTime;
+			}
+			else {
+				vuelta = false;
+			}
+		}
+		else {
+			if (estatuaAngle1 < 370.0f) {
+				estatuaAngle1 += estatuaOffset1 * deltaTime;
+			}
+			else {
+				vuelta1 = true;
+			}
+		}
+
+
+
 
 		//estatua
 
@@ -790,25 +1022,29 @@ int main()
 		//movimiento del globo aerostatico 
 
 		if (goingUp) {
-
+			// Si está subiendo y no ha alcanzado la altura máxima
 			if (dHeight < 80.0f) {
-
 				dHeight += dSpeed * deltaTime;
 			}
 			else {
+				// Cambiar de dirección cuando alcanza la altura máxima
 				goingUp = false;
 			}
 		}
 		else {
+			// Si está bajando y no ha alcanzado la altura mínima
 			if (dHeight > 0.0f) {
 				dHeight -= dSpeed * deltaTime;
 			}
 			else {
+				// Cambiar de dirección cuando alcanza la altura mínima
 				goingUp = true;
 			}
 		}
 
-		//movimiento de la elise 
+	
+
+		//movimiento de la elise del avion 
 
 		if (vuelta) {
 			if (estatuaAngle > 0.0f) {
@@ -826,6 +1062,8 @@ int main()
 				vuelta = true;
 			}
 		}
+
+
 
 
 		//Recibir eventos del usuario
@@ -1020,29 +1258,28 @@ int main()
 
 		//Aspa
 		model = modelaux;
-
-
 		model = glm::translate(model, glm::vec3(-158.5f, 150.5f, 18.5f));
+		model = glm::rotate(model, estatuaAngle * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Aspa.RenderModel();
 
 		// Carrito 2
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(60.5f, -2.0f, 170.0f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(250.0f + mueve_h_X, -2.0f, 25.0f + mueve_h));
+		//model = glm::translate(model, glm::vec3(-120.0f, -2.0f, 170.0f));
+		//model = glm::translate(model, glm::vec3(-170 + movca, -2.0f, 170.0f));
+		//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, 0 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, gira_h * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Carro.RenderModel();
 
 		//aerostatico 3
-
-
 		model = glm::mat4(1.0);
-
 		//model = glm::translate(model, glm::vec3(6.0f, dHeight, -5.0f));
 		//model = glm::translate(model, glm::vec3(25.5f, 50.5f, 37.5f));
 		model = glm::translate(model, glm::vec3(120.0f, dHeight, 75.5f));
-
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		//model = glm::rotate(model, globoAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
@@ -1059,6 +1296,32 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		elise.RenderModel();
 
+		//helicoptero y elise
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(heliAngle, 70.5f, -5.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, heliAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.1f, 5.1f, 5.1f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		heli.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(heliAngle, 70.5f, -5.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.1f, 5.1f, 5.1f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		eliHeli.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(heliAngle, 70.5f, -5.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.1f, 5.1f, 5.1f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		eliHelia.RenderModel();
+
+
+
+
 
 
 		//Decoración ********************************************************* 
@@ -1066,7 +1329,7 @@ int main()
 		//Lampara 1
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-103.0f, -1.5f, 10.0f));
-
+		pointLights[0];
 		model = glm::scale(model, glm::vec3(1.4f, 1.4f, 1.4f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
@@ -1106,6 +1369,7 @@ int main()
 		//Planeta  3
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-106.0f, 8.0f, -25.0f));
+		model = glm::rotate(model, rot * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Planeta.RenderModel();
@@ -1148,22 +1412,18 @@ int main()
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));//Primero acostado , segundo caras , tercero inclinado	
 		model = glm::scale(model, glm::vec3(12.0f, 12.0f, 12.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-
 		antorcha.RenderModel();
 
 
 		model = modelaux;
-
 		model = glm::translate(model, glm::vec3(36.0f, -2.0f, -105.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));	
-
 		model = glm::scale(model, glm::vec3(12.0f, 12.0f, 12.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		antorcha.RenderModel();
 
 		model = modelaux;
-
 		model = glm::translate(model, glm::vec3(15.0f, -2.0f, -105.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(12.0f, 12.0f, 12.0f));
@@ -1239,7 +1499,7 @@ int main()
 
 		//Calcifer
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(120.0f, 0.0f, 70.0f));
+		model = glm::translate(model, glm::vec3(120.0f, -1.0f, 70.0f));
 		model = glm::rotate(model, (rotCalcifer) * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(creceCalcifer, creceCalcifer, creceCalcifer));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1247,7 +1507,7 @@ int main()
 
 		//roca
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-80.0f, 0.0f, 40.0f));
+		model = glm::translate(model, glm::vec3(-80.0f, -2.0f, 40.0f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));
 		//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1286,22 +1546,59 @@ int main()
 
 		//Bolita 1
 		model = glm::mat4(1.0); 
-		model = glm::translate(model, glm::vec3(150.0f, 0.0f, -20.0f));
+		model = glm::translate(model, glm::vec3(150.0f, 2.0f, -20.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Bolita.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(150.0f, 2.5f, -20.0f));
+		model = glm::rotate(model, movizq * toRadians, glm::vec3(1.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		p1.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(150.0f, 2.5f, -20.0f));
+		model = glm::rotate(model, movizq * toRadians, glm::vec3(1.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		p2.RenderModel();
+
 
 		model = glm::mat4(1.0);
-
-		model = glm::translate(model, glm::vec3(140.0f, 0.0f, -20.0f));
-
+		model = glm::translate(model, glm::vec3(140.0f, 2.0f, -20.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Bolita.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(140.0f, 2.5f, -20.0f));
+		model = glm::rotate(model, movizq * toRadians, glm::vec3(1.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		p1.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(140.0f, 2.5f, -20.0f));
+		model = glm::rotate(model, movizq * toRadians, glm::vec3(1.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		p2.RenderModel();
+
+
 
 		model = glm::mat4(1.0);
-
-		model = glm::translate(model, glm::vec3(160.0f, 0.0f, -30.0f));
+		model = glm::translate(model, glm::vec3(160.0f, 2.0f, -30.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Bolita.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(160.0f, 2.5f, -30.0f));
+		model = glm::rotate(model, movizq * toRadians, glm::vec3(1.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		p1.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(160.0f, 2.5f, -30.0f));
+		model = glm::rotate(model, movizq * toRadians, glm::vec3(1.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		p2.RenderModel();
+
 
 		//heibai
 		model = glm::mat4(1.0);	
@@ -1333,6 +1630,16 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		aang.RenderModel();
+
+		//personaje tierra
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(22.0f, -2.0f, -110.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, -1.0f, 0.0f));
+		//model = glm::rotate(model, estatuaAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.04f, 0.04f, 0.04f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Pt.RenderModel();
 
 
 		//Flora ****************************************************************
@@ -1393,7 +1700,7 @@ int main()
 		//cerca de la lamparra del principio
 
 		model = glm::mat4(1.0);	
-		model = glm::translate(model, glm::vec3(-100.5f, -2.0f, 0.0f));	
+		model = glm::translate(model, glm::vec3(-100.5f, -2.0f, -78.0f));	
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
 		model = glm::scale(model, glm::vec3(0.09f, 0.09f, 0.09f));	
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	
@@ -1401,7 +1708,7 @@ int main()
 		arbol.RenderModel();
 
 		model = modelaux;	
-		model = glm::translate(model, glm::vec3(-105.5f, -2.0f, -2.5f));	
+		model = glm::translate(model, glm::vec3(-105.5f, -2.0f, -80.5f));	
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));	
 		model = glm::scale(model, glm::vec3(0.09f, 0.09f, 0.09f));	
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));	

@@ -21,7 +21,9 @@ public:
 	GLfloat getLuzHongo() { return LuzHongo; }
 	GLfloat getcambiacamara() { return cambiacamara; }
 	GLfloat getanguloL() { return anguloL; }
-	GLint getlight() { return L; }
+	GLfloat getLUZK() { return LUZK; }
+	GLint getlight() { return K; }
+
 
 
 
@@ -48,6 +50,8 @@ private:
 	GLfloat yChange;
 	GLfloat muevex;
 	GLfloat muevexHelicoptero;
+	GLint K = 0;
+	GLfloat LUZK = 0.0f;
 	GLfloat LuzPointLigth;
 	GLfloat LuzHongo;
 	GLfloat cambioSpot;
@@ -55,6 +59,7 @@ private:
 	GLfloat cambiacamara;
 	GLint L = 0;
 	GLfloat anguloL = 0.0f;
+
 
 
 
