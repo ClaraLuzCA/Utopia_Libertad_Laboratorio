@@ -158,17 +158,14 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	{
 		theWindow->cambiacamara = -1.0;
 	}
-
-/*
-	if (key == GLFW_KEY_M)
+	/*if (key == GLFW_KEY_O)
 	{
-		theWindow->K = 1;
+		theWindow->L = 1;
 	}
-	if (key == GLFW_KEY_N)
+	if (key == GLFW_KEY_P)
 	{
-		theWindow->K = 0;
-	}
-
+		theWindow->L = 0;
+	}*/
 
 	if (key >= 0 && key < 1024)
 	{
@@ -183,16 +180,18 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 			//printf("se solto la tecla %d'\n", key);
 		}
 	}
-	if (key == GLFW_KEY_Z)
+	/*if (key == GLFW_KEY_Z)
 	{
-		theWindow->LUZK += 10.0;
+		theWindow->anguloL += 10.0;
 	}
 
 	if (key == GLFW_KEY_X)
 	{
-		theWindow->LUZK -= 10.0;
-	}
-*/
+		theWindow->anguloL -= 10.0;
+	}*/
+	
+
+
 	if (key == GLFW_KEY_Z) {
 		theWindow->movTotoro += 1.0;
 		theWindow->movPBTotoro = true;
@@ -214,9 +213,6 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	if (key == GLFW_KEY_V) {
 		theWindow->rotTotoro -= 2.0;
 	}
-
-
-
 
 	if (key >= 0 && key < 1024)
 	{
